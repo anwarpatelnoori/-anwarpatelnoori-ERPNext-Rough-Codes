@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.letter-head img {
+    width: 100%; /* Adjust width as necessary, but maintain full width for responsiveness */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 20px;
+}
+
+.sales-order-form {
+    max-width: 800px; /* Increased width for better layout */
+    margin: 20px auto; /* Center form with top margin for spacing */
+    padding: 20px;
+    border: 1px solid #000;
+    background-color: #fff; /* Optional: adds background color */
+}
+
+.sales-order-form h2, .sales-order-form h3 {
+    text-align: center;
+    color: #333; /* Darker text for better readability */
+}
+
+.customer-details, .total {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9; /* Light background for section differentiation */
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px; /* Added margin for spacing below table */
+}
+
+table, th, td {
+    border: 1px solid #ddd; /* Lighter border for a softer look */
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333; /* Ensure text is readable on light background */
+}
+
+.items th {
+    color: black; /* Ensures consistency in text color */
+}
+
+.total p {
+    margin: 5px 0; /* Smaller margin for compact look */
+    font-weight: bold; /* Makes total values stand out */
+}

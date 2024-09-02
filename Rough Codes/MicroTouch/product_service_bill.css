@@ -1,0 +1,136 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+    color: black !important;
+}
+
+.sales-order-form {
+    max-width: 800px;
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid #000;
+    background-color: #fff;
+}
+
+.letter-head img {
+    width: 100%;
+    height: auto;
+    margin-bottom: -20px;
+}
+
+.sales-order-form h2,
+.sales-order-form h3 {
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+}
+
+.customer-details,
+.total {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.row p {
+    flex: 1;
+    margin: 5px;
+    min-width: 30%;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 4px;
+    text-align: left;
+    /* color: black; */
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.items th {
+    color: black;
+    font-weight: bold;
+}
+
+.items {
+    border: 1px solid black;
+}
+
+.total p,
+.customer-details tr:nth-child(even) {
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.customer-details tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.customer-details th,
+.customer-details td {
+    color: black;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.customer-details td {
+    color: black;
+    font-weight: normal;
+    font-size: 13px;
+}
+
+.sales-order-section {
+    display: block;
+    width: 100%;
+    max-width: 800px;
+    /* Adjust based on your preference */
+    margin: 10px auto;
+}
+
+.sales-order-row {
+    display: flex;
+    width: 100%;
+}
+
+.sales-order-row.header {
+    font-weight: bold;
+    background-color: #f2f2f2;
+}
+
+.sales-order-cell {
+    flex: 1;
+    padding: 4px;
+    /* Adjust padding as needed */
+    border: 1px solid #ddd;
+    /* Add borders as needed */
+}
+
+.sales-order-cell ul {
+    padding-left: 10px;
+    /* Adjust list styling as needed */
+}
+
+/* Add additional styling here as needed */

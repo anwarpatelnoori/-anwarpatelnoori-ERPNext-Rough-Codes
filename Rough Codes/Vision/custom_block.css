@@ -1,0 +1,76 @@
+.main-content {
+    border: 2px solid gray;
+    border-radius: 5px;
+    margin-left: 0;
+    padding: 0;
+    background-color: #f0f0f0
+}
+
+#user {
+    display: flex;
+    padding: 10px;
+}
+
+.pic {
+    border: 2px solid gray;
+    border-radius: 5px;
+    width: 140px;
+    /* Set a fixed width for the picture */
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-left: 20px;
+}
+
+.info p {
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+img {
+    width: 100%;
+    height: 140px;
+    /* Adjust height as necessary */
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    /* Align items at the start */
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #2490ef;
+    border-radius: 5px;
+    min-width: 150px;
+    width: 225px;
+    /* Adjust the width to fit more cards in a row */
+    height: auto;
+    /* Adjust the height as necessary */
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 10px;
+    /* Add some margin for spacing between cards */
+    font-weight: bold;
+}
+
+
+.card h4 {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: white;
+    background-color: blue}
+
+
+    /* html body div.container div#page-job-application.row div.main-column.col-sm-10 div.page-content-wrapper main.container.my-4 div.page_content div.web-form-container form.web-form */

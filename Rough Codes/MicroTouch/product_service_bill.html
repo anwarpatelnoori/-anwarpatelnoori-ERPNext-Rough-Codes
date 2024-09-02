@@ -1,0 +1,110 @@
+<body>
+
+    {% set letter_head = frappe.get_doc("Letter Head",'MT-Letter Head')%}
+    <div class="sales-order-form">
+        <div class="letter-head">
+            <img src="{{ letter_head.image }}" alt="Letter Head Image">
+        </div>
+        <h2>Product Service Bill</h2>
+        <div class="customer-details">
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Token Number</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td>{{ doc.date}}</td>
+                    <td>{{ doc.name}}</td>
+                    <td>{{ doc.status }}</td>
+                </tr>
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Contact Person</th>
+                    <th>Mobile No</th>
+                </tr>
+                <tr>
+                    <td>{{ doc.customer_name }}</td>
+                    <td>{{ doc.contact_person}}</td>
+                    <td>{{ doc.mobile_no }}</td>
+                </tr>
+                <tr>
+                    <th>Product</th>
+                    <th>Brand</th>
+                    <th>Turnaround Date</th>
+                </tr>
+                <tr>
+                    <td>{{ doc.product}}</td>
+                    <td>{{ doc.brand}}</td>
+                    <td>{{ doc.turnaround_date}}</td>
+                </tr>
+                <tr>
+                    <th>Engineer name</th>
+                    <th>Warranty Status</th>
+                    <th>Compalint ID</th>
+                </tr>
+                <tr>
+                    <td>{{ doc.engineer_name }}</td>
+                    <td>{{ doc.warranty_status }}</td>
+                    <td>{{ doc.complaint_id }}</td>
+                </tr>
+            </table>
+            <div class="sales-order-section">
+                <div class="sales-order-row header">
+                    <div class="sales-order-cell">Product Issue</div>
+                    <div class="sales-order-cell">Accessories Taken</div>
+                    <div class="sales-order-cell">Resolution Details</div>
+                </div>
+                <div class="sales-order-row">
+                    <div class="sales-order-cell">
+                        <ul>
+                            <li>{{doc.product_issue}}</li>
+                            <!-- Additional items can be added here if needed -->
+                        </ul>
+                    </div>
+                    <div class="sales-order-cell">
+                        <ul>
+                            {% for row in doc.accessories_taken %}
+                            <li>{{ row.accessories_name}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="sales-order-cell">
+                        <ul>
+                            <li>{{ doc.resolution_details }}</li>
+                            <!-- Additional items can be added here if needed -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
+            <h3></h3>
+            <table class="items">
+                <tr>
+                    <th>Item Name</th>
+                    <th>Rate</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                </tr>
+                {% for row in doc.costing_table %}
+                <tr>
+                    <td>{{ row.item_name }}</td>
+                    <td>{{ row.price }}</td>
+                    <td>{{ row.quantity }}</td>
+                    <td>₹ {{ row.total }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="total">
+                <p>Minimum Service Charges: {{ doc.min_service_charge}}</p>
+                <p>Spare Parts Charges: ₹ {{ doc.spare_part_total }}</p>
+                <p>Total Charges: ₹ {{ doc.sub_total }}</p>
+                <p>Total Charges After Discount: ₹ {{ doc.total_charges }}</p>
+            </div>
+        </div>
+    </div>
+
+</body>

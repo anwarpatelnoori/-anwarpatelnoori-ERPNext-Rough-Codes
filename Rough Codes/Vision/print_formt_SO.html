@@ -1,0 +1,46 @@
+<body>
+
+    {% set letter_head = frappe.get_doc("Letter Head",'Vision Letter Head')%}
+    <div class="sales-order-form">
+        <div class="letter-head">
+            <img src="{{ letter_head.image }}" alt="Letter Head Image">
+        </div>
+        <h2>Sales Order</h2>
+        <div class="customer-details">
+            <p>Sales Order No: {{ doc.name }}</p>
+            <p>Date: {{ doc.transaction_date}}</p>
+            <p>Delivery Date: {{ doc.delivery_date}}</p>
+            <p>Customer Name: {{ doc.customer }}</p>
+            <p>Mobile No: {{ doc.custom_mobile_number }}</p>
+            <p>Address: {{ doc.custom_full_address }}</p>
+        </div>
+        <div class="table-responsive">
+            <h3></h3>
+            <table class="items">
+                <tr>
+                    <th>HSN Code</th>
+                    <th>Rate</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                </tr>
+                {% for row in doc.items %}
+                <tr>
+                    <td>{{ row.item_code }}</td>
+                    <td>{{ row.rate }}</td>
+                    <td>{{ row.qty }}</td>
+                    <td>₹ {{ row.amount }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="total">
+                <p>Total Quantity: {{ doc.total_qty}}</p>
+                <p>Totoal INR: ₹ {{ doc.total }}</p>
+                <p>Taxes: {{ doc.taxes_and_charges }}</p>
+                <p>Total Taxes Charges: ₹ {{ doc.total_taxes_and_charges }}</p>
+                <p>Grand Total: ₹ {{ doc.grand_total }}</p>
+                <p>In Words: {{ doc.in_words }} </p>
+            </div>
+        </div>
+    </div>
+
+</body>

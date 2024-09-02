@@ -1,0 +1,73 @@
+.terms,
+.charges {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+.table th,
+.table td,
+.charges th,
+.charges td {
+
+    padding: 10px;
+    text-align: left;
+}
+
+.table th:not(:last-child),
+.table td:not(:last-child),
+.charges th:not(:last-child),
+.charges td:not(:last-child) {
+    border-right: 1px solid black;
+}
+
+/* Ensure top border for th elements */
+.table th {
+    border: 1px solid black;
+    font-weight: bold;
+}
+
+.header {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    border-bottom: 1px solid black;
+}
+
+.authorised-centre {
+    border: 1px solid black;
+    margin-top: 20px;
+}
+
+.repair-charges {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.authorised-centre h1,
+.repair-charges h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    padding: 8px 0;
+}
+
+.brands {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+.terms ol {
+    padding-left: 25px;
+}
+
+.terms li {
+    margin-bottom: 7px;
+    font-size: 15px;
+}
+
+.page-break {
+    page-break-after: always;
+}

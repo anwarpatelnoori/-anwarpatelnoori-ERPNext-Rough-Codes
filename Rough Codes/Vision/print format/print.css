@@ -1,0 +1,141 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.invoice-container {
+    max-width: 800px;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-top: 10px solid #1e40af;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.header .invoice-title {
+    font-size: 32px;
+    color: #1e40af;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    margin: 0px;
+    font-size: 18px;
+}
+
+.section p {
+    margin: 5px 0;
+}
+
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.info-table th, .info-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.info-table th {
+    background-color: #1e40af;
+    color: #fff;
+    text-align: left;
+}
+
+.info-table td {
+    text-align: left;
+}
+
+.total-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.total-table th, .total-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.total-table th {
+    background-color: #1e40af;
+    color: #fff;
+    text-align: left;
+}
+
+.total-table td {
+    text-align: right;
+}
+
+.total-table td:first-child {
+    text-align: left;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.section {
+    width: 100%;
+}
+
+.info-box {
+    float: left;
+    width: 40%;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header-bill-ship {
+    background-color: #1e40af;
+    color: white;
+    padding: 1px;
+    text-align: center;
+}
+
+.details {
+    font-size: 16px;
+    padding: 1px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.details td {
+    border-bottom: 1px solid black;
+    padding: 2px 0px 2px 6px;
+}
+
+.details tr:last-child td {
+    border-bottom: none;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}

@@ -1,0 +1,64 @@
+:root{
+    --yellow_color:#ffc024;
+    --green_color:#01b07a;
+    --blue_color:#0087b9;
+}
+.navbar-light,.web-footer{
+    background: var(--yellow_color)
+}
+.page-content-wrapper{
+  background-color: white;
+}
+div.col-3:nth-child(1){
+    font-weight: bold;
+  color: black;
+}
+.form-check{
+    
+}
+.form-check input[type="checkbox"] {
+  border: 1px solid black;
+}
+
+.breadcrumb li a, .breadcrumb li span{
+    color: black !important;
+}
+.text-secondary{
+    color: black !important;
+}
+.card{
+ background: linear-gradient(to bottom, var(--blue_color) 33.33%, #ffcc00 33.33%, #ffcc00 66.66%, #ff5733 66.66%) !important;
+  color:black !important;
+}
+.card{
+ background:  var(--yellow_color) !important;
+  color:black !important;
+}
+
+.col-12{
+    background-color:var(--green_color) !important;
+}
+.p-6{
+    background-color:var(--blue_color) !important;    
+}
+
+
+.card .border{
+    background-color: 1px solid var(--blue_color) !important  
+}
+.job-card-footer{
+    background-color: #fdbe23 !important 
+}
+
+.ql-editor p{
+    color: black !important; /* This makes all text within .ql-editor black */
+}
+.web-form-header{
+    background-color: var(--blue_color) !important;
+    border: 1px solid var(--blue_color) !important;;
+}
+.web-form-header{
+    background-color:var(--blue_color) !important;
+    border: 1px solid var(--blue_color) !important;
+    border-bottom: 1px solid var(--blue_color) !important;
+}

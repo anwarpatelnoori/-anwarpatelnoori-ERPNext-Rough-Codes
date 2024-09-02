@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .table, .terms, .charges {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th, .table td, .charges th, .charges td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+        .header {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .authorised-centre, .repair-charges {
+            border: 2px solid black;
+            margin-top: 20px;
+        }
+        .authorised-centre h1, .repair-charges h1 {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+            padding: 8px 0;
+        }
+        .brands {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 0 10px;
+            font-weight: bold;
+        }
+        .terms ol {
+            padding-left: 20px;
+        }
+        .terms li {
+            margin-bottom: 7px;
+            font-size: 15px;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+    </style>
+</head>
+<body>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Details</th>
+                <th>Customer Information</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Token Number</td>
+                <td>{{ doc.name }}</td>
+            </tr>
+            <tr>
+                <td>Customer Name</td>
+                <td>{{ doc.customer_name }}</td>
+            </tr>
+            <tr>
+                <td>Contact Person</td>
+                <td>{{ doc.contact_person }}</td>
+            </tr>
+            <tr>
+                <td>Customer Mobile Number</td>
+                <td>{{ doc.mobile_no }}</td>
+            </tr>
+            <tr>
+                <td>Product</td>
+                <td>{{ doc.product }}</td>
+            </tr>
+            <tr>
+                <td>Product Brand</td>
+                <td>{{ doc.brand }}</td>
+            </tr>
+            <tr>
+                <td>Warranty Status</td>
+                <td>{{ doc.warranty_status }}</td>
+            </tr>
+            <tr>
+                <td>Assigned Engineer Name</td>
+                <td>{{ doc.engineer_name }}</td>
+            </tr>
+            <tr>
+                <td>Model/Serial Number</td>
+                <td>{{ doc.model_no__serial_no }}</td>
+            </tr>
+            <tr>
+                <td>Turnaround Date</td>
+                <td>{{ doc.turnaround_date }}</td>
+            </tr>
+            <tr>
+                <td>Turnaround Time in Hours</td>
+                <td>{{ doc.turnaround_time_in_hours }}</td>
+            </tr>
+            <tr>
+                <td>Min Service Charge</td>
+                <td>Rs {{ doc.min_service_charge }}/-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <div class="authorised-centre">
+        <div class="header">
+            <h1>AUTHORISED SERVICE CENTRE:</h1>
+            <div class="brands">
+                <span>Canon</span>
+                <span>HP</span>
+                <span>Lenovo</span>
+                <span>Asus</span>
+                <span>Acer</span>
+                <span>Brother</span>
+                <span>Ricoh</span>
+            </div>
+        </div>
+
+        <div class="repair-charges">
+            <h1>REPAIRS / SERVICE CHARGES</h1>
+            <table class="charges">
+                <!-- Dynamically insert service charges here if applicable -->
+            </table>
+            <h1>MINIMUM DIAGNOSING CHARGES Rs. 250/-</h1>
+        </div>
+    </div>
+
+    <div class="terms">
+        <h1>Terms and Conditions</h1>
+        <ol>
+            <!-- List of Terms and Conditions -->
+        </ol>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!--Derived from DAB Tax invoice V1 Testing-->
+<table class="invoice-table">
+    <thead>
+        <tr>
+            <th style="background-color: #fff !important;">
+                <div class="empty-header"></div>
+            </th>
+        </tr>
+    </thead>
+    {% set company = frappe.get_doc("Company", doc.company)%}
+    {% if (doc.company_address) %}
+    {% set supplier_address_doc = frappe.get_doc('Address', doc.company_address) %}
+    {% endif %}
+    {% if(doc.customer_address) %}
+    {% set customer_address = frappe.get_doc('Address', doc.customer_address ) %}
+    {% endif %}
+    {% if(doc.shipping_address_name) %}
+    {% set customer_shipping_address = frappe.get_doc('Address', doc.shipping_address_name ) %}
+    {% endif %}
+    {% set customer_tax_id = frappe.db.get_value('Customer', doc.customer, 'tax_id') %}
+    <tbody>
+        <tr>
+            <td>
+                <div class="content">
+                    <div style="qr-flex: 1">
+                        <h2 class="invoice-heading">{% if(doc.is_return) %} CREDIT NOTE {% else %} TAX INVOICE {% endif
+                            %}</h2>
+                        <h2 class="invoice-heading">{% if(doc.is_return) %} اشعار دائن {% else %} فاتورة ضريبية{% endif
+                            %}</h2>
+                    </div>
+                    <div class="qr-flex" style="margin-bottom: 10px;">
+                        <div style="qr-flex: 1">
+                            <span><b>INVOICE DETAILS:</b></span> <br /> <br />
+                            <span><b>Invoice: #{{doc.name}} </b></span><br />
+                            <!--<span>Invoice Date: {{doc.posting_date}}</span><br/>-->
+                            <span>Invoice Date: {{doc.get_formatted('posting_date')}}</span><br />
+                            <!--<span>Date of Supply: {{doc.date_of_supply}}</span><br/>   -->
+                            {% if(doc.is_return) %}
+                            <span>Original Invoice number: #{{doc.return_against}} </span><br />
+                            {% endif %}
+                        </div>
+                        <div class="qr-code">
+                            <img src={{doc.ksa_einv_qr}} width="80px" height="80px">
+                        </div>
+                    </div>
+                    <div class="ksa-vat-format">
+                        <table>
+                            <tbody style="text-align:left !important;">
+                                <tr>
+                                    <td style="width: 40%; padding: 10px;" class="m-bottom">
+                                        <span><b>FROM:</b></span><br /> <br />
+                                        <span>{{ company.company_name_to_be_printed }} / {{
+                                            company.company_name_in_arabic }}</span> <br />
+                                        {% if company.tax_id %}
+                                        <span>VAT No / ضريبة القيمة المضافة :<span dir="rtl"> {{ company.tax_id
+                                                }}</span> </span><br />
+                                        {% endif %}
+                                    </td>
+                                    <td style="width: 10%"></td>
+                                    <td style="width: 40%; padding: 10px;" class="m-bottom">
+                                        <span><b>TO:</b></span><br /> <br />
+                                        <span>{{ doc.customer }}</span><br />
+                                        {% if doc.customer_name_in_arabic %}
+                                        <span>{{ doc.customer_name_in_arabic }}</span><br />
+                                        {% endif %}
+                                        {% if(customer_address) %}
+                                        <!--<span>{{ customer_address.address_line1}} / <span dir="rtl">{{ customer_address.address_in_arabic}}</span> </span> <br/> -->
+                                        <span>{{ customer_address.address_line1 }}</span><br />
+                                        <span dir="rtl">{{ customer_address.address_in_arabic }}</span><br />
+                                        {% endif %}
+                                        {% if customer_tax_id %}
+                                        <span>VAT No / ضريبة القيمة المضافة :<span dir="rtl"> {{ customer_tax_id
+                                                }}</span></span><br />
+                                        {% endif %}
+                                        {% if(customer_shipping_address) %}
+                                        {% if(customer_shipping_address.address_line1 != customer_address.address_line1)
+                                        %}
+                                        <span><b>SHIPPING ADDRESS / نوان الشحن:</b></span><br /> <br />
+                                        <span>{{ customer_shipping_address.address_line1}} / {{
+                                            customer_shipping_address.address_in_arabic}}</span><br />
+                                        {% endif %}
+                                        {% endif %}
+                                        {% if(doc.po_no) %}<br>
+                                        <span><b>OTHER INFORMATION / <span dir="rtl">علومات أخرى
+                                                </span></b><br /></span>
+                                        <span>Purchase Order Number / <span dir="rtl"> قم أمر الشراء</span> {{ doc.po_no
+                                            }}</span>
+                                        <span>Payment Due Date / <span dir="rtl">اريخ استحقاق الدفع</span> {{
+                                            doc.due_date}}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--Dynamic Colspan for total row columns-->
+                        {% set col = namespace(one = 2, two = 1) %}
+                        {% set length = doc.taxes | length %}
+                        {% set length = length / 2 | round %}
+                        {% set col.one = col.one + length %}
+                        {% set col.two = col.two + length %}
+                        {%- if(doc.taxes | length % 2 > 0 ) -%}
+                        {% set col.two = col.two + 1 %}
+                        {% endif %}
+                        <!-- Items -->
+                        {% set total = namespace(amount = 0) %}
+                        <table class="item-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40%">Nature of goods or services <br />طبيعة السلع أو الخدمات</th>
+                                    <th style="width: 15%">Unit price <br /> سعر الوحدة</th>
+                                    <th style="width: 5%">Qty <br /> الكمية</th>
+                                    <th style="width: 10%">Total Amount <br /> قيمة الضريبة
+                                    </th>
+                                    {% for row in doc.taxes %}
+                                    <th style="width: 10%"> VAT 15% </th>
+                                    {% endfor %}
+                                    <th style="width: 20%">Total (in SAR) <br /> المجموع</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%- for item in doc.items -%}
+                                {% set total.amount = item.amount %}
+                                <tr>
+                                    <td style="text-align: left;">
+                                        {% if item.item_name != item.description %}
+                                        {{ item.item_code }}
+                                        <br />{{ item.description }}
+                                        {% else %}
+                                        {{ item.item_code }}
+                                        <br />{{ item.item_name }}
+                                        {% endif %}
+                                    </td>
+                                    <td style="text-align: right;">{{ item.get_formatted("rate") }}</td>
+                                    <td style="text-align: right;">{{ item.qty|int }}</td>
+                                    <td style="text-align: right;">{{ item.get_formatted("amount") }}</td>
+                                    <!--<td>sdf</td>-->
+                                    {% for row in doc.taxes %}
+                                    {% set data_object = json.loads(row.item_wise_tax_detail) %}
+                                    {% set key = item.item_code or item.item_name %}
+                                    {% set tax_amount = frappe.utils.flt(data_object[key][1]/doc.conversion_rate,
+                                    row.precision('tax_amount')) %}
+                                    <!-- kk custom code -->
+                                    {% set cust_tot_amt = item.amount %}
+                                    <!--{% set cust_tax_amt = cust_tot_amt * 0.15 %}-->
+                                    {% set cust_tax_amt = cust_tot_amt * 0.15 %}
+                                    <!--end here-->
+                                    <td style="text-align: right;">
+
+                                        {%- if(data_object[key][0])-%}
+                                        <!--<span>{{ frappe.format(data_object[key][0], {'fieldtype': 'Percent'}) }}</span>-->
+                                        {%- endif -%}
+
+                                        {%- if(data_object[key][1])-%}
+                                        <!--{{ frappe.format_value(tax_amount, currency=doc.currency) }}</span>-->
+                                        <!-- kk custom code -->
+                                        {{ frappe.format_value(cust_tax_amt, currency=doc.currency) }}
+
+                                        {% set total.amount = total.amount + cust_tax_amt %}
+                                        <!--en dhere-->
+                                        {%- endif -%}
+
+                                    </td>
+                                    {% endfor %}
+                                    <td style="text-align: right;">{{ frappe.format_value(frappe.utils.flt(total.amount,
+                                        doc.precision('total_taxes_and_charges')), currency=doc.currency) }}</td>
+                                </tr>
+                                {%- endfor -%}
+                                <tr>
+                                    <td colspan="1" rowspan="3"></td>
+                                    <td colspan="4" style="text-align: left;">
+                                        <!--<b>Total (Excluding VAT) /  الإجمالي باستثناء ضريبة القيمة المضافة</b>-->
+                                        <b>Total Amount before VAT / الاجمالي قبل الضريبة </b>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <b>{{ doc.get_formatted("total") }}</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="text-align: left;">
+                                        <!--<b> Total VAT @ 15 /  إجمالي ضريبة القيمة المضافة</b>-->
+                                        <b> VAT Amount / ضريبة القيمة المضافة</b>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <b>{{ doc.get_formatted("total_taxes_and_charges") }}</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="text-align: left;">
+                                        <!--<b>Total Amount Due /  ي المبلغ المستحق</b>-->
+                                        <b> Total Amount with VAT / الاجمالي بعد الضريبة </b>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <b>{{ doc.get_formatted("grand_total") }}</b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {%- if doc.note_details -%}
+                        <p>
+                            <br>
+                            {{doc.note_details}}
+                        </p>
+                        {%- endif -%}
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr style="background-color: #fff !important;">
+            <td>
+                <div class="empty-footer"></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<div class="header">
+    <img src="{{ company.company_letterhead }}" width="100%" height="80px" class="img-fluid">
+</div>
+<div class="footer">
+    <img src="{{ company.company_footer }}" width="100%" height="80px" class="img-fluid">
+</div>

@@ -1,0 +1,118 @@
+<div class="main-content">
+    <div id="user">
+        <div class="pic">
+
+            <img id="photo" />
+        </div>
+        <div class="info">
+            <p id="name"></p>
+            <p id="email"></p>
+            <p id="branch"></p>
+            <p id="phone"></p>
+        </div>
+    </div>
+
+    <!-- Cards container -->
+    <div class="cards-container">
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/todo/view/list">
+                <h4>ToDo</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/member-registrationt">
+                <h4>Member Registration</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/lead">
+                <h4>Lead</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/quotation">
+                <h4>Quotation</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/sales-order">
+                <h4>Sales Order</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/sales-invoice">
+                <h4>Sales Invoice</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/query-report/Sales Person Target Report">
+                <h4>Sales Person Target Report</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/service">
+                <h4>Service</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/leave-application">
+                <h4>Apply Leave</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/expense-claim">
+                <h4>Apply Expenses</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/query-report/Sales%20Register">
+                <h4>Sales Report</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/supplier">
+                <h4>Supplier</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/item">
+                <h4>Item</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/material-request">
+                <h4>Material Request</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/purchase-order">
+                <h4>Purchas Order</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/purchase-invoice">
+                <h4>Purchas Invoice</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/stock-entry">
+                <h4>Stock Entry</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/query-report/Stock%20Balance">
+                <h4>Stock Balance</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/payment-entry">
+                <h4>Payment Entry</h4>
+            </a>
+        </div>
+        <div class="card">
+            <a href="https://vision.standardtouch.com/app/leave-application">
+                <h4>Leave Application</h4>
+            </a>
+        </div>
+    </div>
+</div>

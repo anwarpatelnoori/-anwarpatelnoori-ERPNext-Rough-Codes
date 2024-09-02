@@ -1,0 +1,363 @@
+{% if(doc.customer_address) %}
+{% set customer_address = frappe.get_doc('Address', doc.customer_address ) %}
+{% endif %}
+
+
+{% set company = frappe.get_doc("Company", doc.company)%}
+{% if (doc.company_address) %}
+{% set supplier_address_doc = frappe.get_doc('Address', doc.company_address) %}
+{% endif %}
+
+{% if(doc.shipping_address_name) %}
+{% set customer_shipping_address = frappe.get_doc('Address', doc.shipping_address_name ) %}
+{% endif %}
+<div class="container-fluid">
+    <div id="ui-view" data-select2-id="ui-view">
+        <div style="border: 1px solid black; padding: 5px;font-size: 8px !important;">
+            <div class="row">
+                <div class="col-sm-6">
+                    <img src="/files/SEPAM_logos.png" width="150px" height="50px">
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-12 text-center ">
+                            <h3 class="bold">ADVANCE INVOICE</h3>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-5">
+
+                            <h6 class="mb-3 bold">Send To:</h6>
+                            <!-- Customer Name -->
+                            <div class="bodr-b">
+                                <strong>{{ doc.customer }} / {{ doc.customer_name_in_arabic }}</strong>
+                            </div>
+                            <!-- End Here  -->
+
+                            <!-- Customer address -->
+                            {% if(customer_address.address_line1) %}
+                            <div class="bodr-b">{{ customer_address.address_line1}} </div>
+                            {% endif %}
+                            {% if(customer_address.address_line2) %}
+                            <div class="bodr-b">{{ customer_address.address_line2}} </div>
+                            {% endif %}
+                            {% if(customer_address.city) %}
+                            <div class="bodr-b">{{ customer_address.city}},{{ customer_address.country}} </div>
+                            {% endif %}
+                            {% if(customer_address.country) %}
+                            <div class="bodr-b">{{ customer_address.country}} </div>
+                            {% endif %}
+
+                            <!-- End Here -->
+
+                            <!-- Customer Tax No -->
+
+
+                            {% if(customer_address.pincode) %}
+                            <div class="bodr-b">P.O.Box No : {{ customer_address.pincode }}</div>
+                            {% endif %}
+
+                            {% set customer_tax_id = frappe.db.get_value('Customer', doc.customer, 'tax_id') %}
+                            {% if customer_tax_id %}
+                            <div class="bodr-b">VAT No : {{ customer_tax_id }}</div>
+                            {% endif %}
+                            <div class="bodr-b">Attention: {% if(doc.attention) %} {{doc.attention}} {% else %} {% endif
+                                %}</div>
+
+
+
+
+                            {% if(customer_address.phone) %}
+                            <div>Phone : {{ customer_address.phone }}</div>
+                            {% endif %}
+                            <!-- End here -->
+
+                        </div>
+
+
+                        <div class="col-sm-5 text-left">
+                            <h6 class="mb-3 bold">From:</h6>
+                            <div class="bodr-b">
+                                <strong>{{ company.name }} / {{ company.company_name_in_arabic }}</strong>
+                            </div>
+                            {% if(supplier_address_doc) %}
+                            {% if(supplier_address_doc.address_line1) %}
+                            <div class="bodr-b">{{ supplier_address_doc.address_line1}} / </div>
+                            {% endif %}
+                            {% if(supplier_address_doc.address_line2) %}
+                            <div class="bodr-b">{{ supplier_address_doc.address_line2}} / </div>
+                            {% endif %}
+                            {% if(supplier_address_doc.city) %}
+                            <div class="bodr-b">{{ supplier_address_doc.city}}</div>
+                            {% endif %}
+                            {% if(supplier_address_doc.country) %}
+                            <div class="bodr-b">{{ supplier_address_doc.country}}</div>
+                            {% endif %}
+                            <!--<div class="bodr-b">{{ supplier_address_doc.pincode}}  </div>-->
+                            <!--<div class="bodr-b">Phone: {{ supplier_address_doc.phone }}</div>-->
+                            {% if (company.tax_id) %}
+                            <div class="bodr-b">VAT No: {{ company.tax_id }}</div>
+                            {% endif %}
+                            <!-- <div>Email: {{ supplier_address_doc.email_id }}</div> -->
+                            {% endif %}
+
+                        </div>
+
+                        <div class="col-sm-2  text-left">
+                            <img class="qr-code img-fluid " src={{doc.ksa_einv_qr}}>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="row mb-4">
+                        <div class="col-sm-5">
+                            <h6 class="mb-3 font-weight-bolder bold">Details:</h6>
+
+
+
+                            <div class="bodr-bt">Contract:
+                                <strong> {% if(doc.contract_number) %} #{{doc.contract_number}} {% else %} {% endif %}
+                                </strong>
+                            </div>
+                            <div class="bodr-b1">PO. No:
+                                <strong>{% if(doc.po_number) %} #{{doc.po_number}} {% else %} {% endif %}</strong>
+                            </div>
+
+                            <div class="bodr-b1">Currency:
+                                <strong>{% if(doc.currency_) %} {{doc.currency_}} {% else %} {% endif %}</strong>
+                            </div>
+                            <div class="bodr-b1">Project:
+                                <strong> {% if(doc.project_1) %} {{doc.project_1}} {% else %} {% endif %} </strong>
+                            </div>
+                            <!--<div class="bodr-b1">SES:   -->
+                            <!--    <strong> {% if(doc.ses) %} #{{doc.ses}}  {% else %} {% endif %}</strong>-->
+                            <!--</div>-->
+                        </div>
+                        <div class="col-sm-7">
+                            <br /><br />
+                            <div class="bodr-bt">Serial No / الرقم التسلسلي: {% if(doc.serial_number_for_invoice) %}
+                                <span dir="ltr"> {{doc.serial_number_for_invoice }}</span>{% else %} {% endif %}</div>
+                            <div class="bodr-b1">Invoice No. / رقم الفاتورة:
+                                <strong>#{{doc.name}} </strong>
+                            </div>
+                            <div class="bodr-b1">Date / تاريخ الفاتورة: <span dir="ltr">{{doc.posting_date}}</span>
+                            </div>
+                            <div class="bodr-b1">Job Code: {% if(doc.job_code) %} {{ doc.job_code }} {% else %} {% endif
+                                %}</div>
+                            <!--<div class="bodr-b1">وقت الفاتورة / Invoice Time   : {{doc.posting_time}}</div>-->
+                            <!--<div class="bodr-b1">اريخ التوريد: / Date of Supply   : {{doc.posting_date}}</div>-->
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive-sm">
+                        <h5 style="text-align:center"><b>{{doc.description_of_invoicing_period1}}</b></h5>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="center"></th>
+                                    <th style="width: 60%;"></th>
+                                    <th>Amount in USD كمية الشبكة </th>
+                                    <th>Amount in SAR كمية الشبكة </th>
+                                </tr>
+
+                            </thead>
+
+                            {% if(doc.sar_to_usd_rate_1) %}
+                            {% set current_usd_rates = doc.sar_to_usd_rate_1 %}
+                            {% else %}
+                            {% set current_usd_rates = 0 %}
+                            {% endif %}
+                            <tbody>
+                                <tr>
+                                    <td class="center">A</td>
+                                    <td class="left">CURRENT PERIOD /الفترة الحالية</td>
+                                    <td class="text-center">${{ "{:,.2f}".format(doc.current_period_billing3 *
+                                        current_usd_rates ) }}</td>
+                                    <td class="text-center">{{doc.get_formatted("current_period_billing3")}}</td>
+                                    <!-- <td class="text-center">16</td> -->
+                                </tr>
+                                <tr>
+                                    <td class="center">B</td>
+                                    <td class="left"> ADJUSTMENTS IN PREVIOUS MONTH /التعديلات في الشهر السابق</td>
+                                    <td class="text-center">${{
+                                        "{:,.2f}".format(doc.custom_adjustment_in_previous_month_
+                                        * current_usd_rates ) }}</td>
+                                    <td class="text-center">
+                                        {{doc.get_formatted("custom_adjustment_in_previous_month_")}}
+                                    </td>
+                                    <!-- <td class="text-center">16</td> -->
+                                </tr>
+                                <tr>
+                                    <td class="center">C</td>
+                                    <td class="left">TOTAL VALUE / القيمة الإجمالية
+                                    </td>
+                                    <td class="text-center">${{ "{:,.2f}".format(doc.custom_total_value_ *
+                                        current_usd_rates ) }}</td>
+                                    <td class="text-center">{{doc.get_formatted("custom_total_value_")}}</td>
+                                    <!-- <td class="text-center">16</td> -->
+                                </tr>
+                                <tr>
+                                    <td class="center">D</td>
+                                    <td class="left">VAT FOR THIS CURRENT PERIOD @15% / ضريبة القيمة المضافة بنسبة
+                                        %15
+                                    </td>
+                                    <td class="text-center">${{
+                                        "{:,.2f}".format(doc.vat_for_this_current_period_at_15_percent3 *
+                                        current_usd_rates ) }}</td>
+                                    <td class="text-center">
+                                        {{doc.get_formatted("vat_for_this_current_period_at_15_percent3")}}</td>
+                                    <!-- <td class="text-center">16</td> -->
+                                </tr>
+                                <tr>
+                                    <td class="center">E</td>
+                                    <td class="left">CURRENT PERIOD BILLING AFTER VAT @ 15% / قيمة الفاتورة
+                                        الإجمالية
+                                        بعد ضريبة القيمة المضافة</td>
+                                    <td class="text-center">${{
+                                        "{:,.2f}".format(doc.current_period_billing_after_vat_at_153 *
+                                        current_usd_rates
+                                        ) }}</td>
+                                    <td class="text-center">
+                                        {{doc.get_formatted("current_period_billing_after_vat_at_153")}}</td>
+                                    <!-- <td class="text-center">16</td> -->
+                                </tr>
+
+                                <tr>
+                                    <td class="center">F</td>
+                                    <td class="left">RETENTION FOR THIS CURRENT PERIOD @ 5% / الإيجار على صافي قيمة
+                                        الفاتورة</td>
+                                    <td class="text-center">${{
+                                        "{:,.2f}".format(doc.retention_for_this_current_period_at_103 *
+                                        current_usd_rates ) }}</td>
+                                    <td class="text-center">
+                                        {{doc.get_formatted("retention_for_this_current_period_at_103")}}</td>
+                                    <!-- <td class="text-center">16</td> -->
+                                </tr>
+
+
+                                <tr>
+                                    <td class="center">G</td>
+                                    <td class="left">NET AMOUNT FOR THIS PERIOD / المبلغ المستحق بعد ضريبة القيمة
+                                        المضافة والإيجار</td>
+                                    <td class="text-center">${{ "{:,.2f}".format(doc.net_amount_for_this_period3 *
+                                        current_usd_rates ) }}</td>
+                                    <td class="text-center">{{doc.get_formatted("net_amount_for_this_period3")}}
+                                    </td>
+                                    <!-- <td class="text-center">16</td> -->
+                                </tr>
+
+                                <tr>
+                                    <td colspan="1">In Words USD</td>
+                                    <td colspan="3" style="text-align:left !important;"> {% if(
+                                        doc.usd_net_amount_in_words_english ) %} {{ doc.usd_net_amount_in_words_english }}
+                                        {%
+                                        else %} {% endif %} </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">In Words SAR</td>
+                                    <td colspan="3" style="text-align:left !important;">{% if(
+                                        doc.net_amount_in_words_arabic ) %} {{ doc.net_amount_in_words_arabic }} {%
+                                        else
+                                        %} {% endif %} </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
+                            <p class="font-weight-bolder">Bank Details for Payment / تفاصيل البنك للدفع </p>
+                            <table class="table table  table-border table-sm table-cstm"
+                                style="text-align: left !important;">
+                                <!--<table class="table-cstm" style="text-align: left !important;">-->
+                                <tbody style="font-size: 8px !important;">
+                                    <tr>
+                                        <td class="text-left">
+                                            <strong>Beneficiary / تفاصيل البنك للدفع </strong>
+                                        </td>
+                                        <td class="right">Sepam Saudi Arabia Co /شركة سبام العربية السعودية المحدودة
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <strong>Account No. / رقم حساب </strong>
+                                        </td>
+                                        <td class="right">95400005254309 / ۹٥٤۰۰۰۰٥۲٥٤۳۰۹</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <strong>IBAN No. / رقم IBAN </strong>
+                                        </td>
+                                        <td class="right">SA0210000095400005254309/ SA۰۲۱۰۰۰۰۰۹٥٤۰۰۰۰٥۲٥٤۳۰۹</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <strong>Bank / اسم البنك </strong>
+                                        </td>
+                                        <td class="right">
+                                            <strong>The Saudi National Bank /البنك الوطني السعودي</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <strong>Branch / اسم الفرع </strong>
+                                        </td>
+                                        <td class="right">
+                                            <strong> Al Khobar Branch, Al Khobar, Saudi Arabia./فرع الخبر ، الخبر ،
+                                                المملكة العربية السعودية.</strong>
+                                        </td>
+                                    </tr>
+                                    <tr style="border:1px solid rgba(0,0,0,0.3);">
+                                        <!-- <td  style="width:50% !important;text-align:center !important; padding-top:  5% !important; padding-bottom: 2% !important;">{{doc.prepared_by}}</td> -->
+                                        <td
+                                            style="width:50% !important;text-align:center !important; padding-top:  5% !important; padding-bottom: 2% !important;">
+                                            {{doc.prepared_by}}<br>Prepared By</td>
+                                        <!-- <td  style="width:50% !important;text-align:center !important; padding-top:  5% !important; padding-bottom: 2% !important;">{{doc.approved_by}}</td> -->
+                                        <td
+                                            style="width:50% !important;text-align:center !important; padding-top:  5% !important; padding-bottom: 2% !important;">
+                                            {{doc.approved_by}}<br>Approved by</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- <div class="row">
+                    <div class="col-lg-6 col-sm-6">
+                        <div>Client acknowledgement for receipt of Invoice</div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6">
+                        <div>Received: ______________________________________________</div>
+                        <div>Signature: _____________________________________________</div>
+                        <div>Date:: _________________________________________________</div>
+                    </div>
+                </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <img src="/files/SEPAM_Footer.png" class="img-fluid">
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                <div class="text-left">
+                    <div style="color:red;font-size: 24px;font-weight: 700;">PM & C Saudi Arabia Co.Ltd</div>
+                    <div>C.R No.2051033929 - Membership No. 78691</div>
+                    <div>P.O. Box 79886 - Al-Khobar 31952- Kingdom of Saudi Arabia</div>
+                    <div>Tel.: +966138218200 - Fax : +966138935554</div>
+                </div>
+            </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
