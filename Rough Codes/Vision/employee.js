@@ -1,20 +1,9 @@
 frappe.ui.form.on('Employee', {
-    before_load: function (frm) {
-        field_tab_hide(frm)
-    },
-    onload: function (frm) {
-        field_tab_hide(frm)
-    },
     refresh: function (frm) {
         field_tab_hide(frm)
-    },
-    before_save: function (frm) {
-        // if (frm.is_new()) {
-        //     create_user_and_set_permissions(frm)
-        // }
-    },
-    after_save: function (frm) {
-        // frm.set_value('user_id', frm.doc.personal_email)
+        if (frm.doc.user_id) {
+            // read_only_branch(frm)
+        }
     },
     custom_assign_employee_to_multiple_branch: function (frm) {
         if (frm.doc.custom_assign_employee_to_multiple_branch == 1) {
@@ -22,14 +11,30 @@ frappe.ui.form.on('Employee', {
         }
     }
 });
+// Child Table Branch and Store
+frappe.ui.form.on('Branch and Store', {
+    custom_select_branch_and_store_remove: function(frm, cdt, cdn) {
+        // Get the row data before it's removed using frm.doc
+        let removed_row = frappe.get_doc(cdt, cdn);
+        
+        // Check if removed_row is valid
+        if (removed_row) {
+            console.log('Removed Row Data:', removed_row);
+        } else {
+            console.log('Removed Row Data is undefined');
+        }
+    }
+});
+
+
 
 function field_tab_hide(frm) {
     let user = frappe.user.name;
     if (user != 'anwar@standardtouch.com' && user != 'nasir@standardtouch.com' && user != 'zaid@standardtouch.com') {
         const fieldsToHide = [
             'employment_type', 'reports_to', 'grade', 'company_email', 'prefered_email',
-            'prefered_contact_email', 'unsubscribed', 'attendance_device_id', 'default_shift','erpnext_user',
-            'company_details_section', 'shift_request_approver','create_user_permission'
+            'prefered_contact_email', 'unsubscribed', 'attendance_device_id', 'default_shift', 'erpnext_user',
+            'company_details_section', 'shift_request_approver', 'create_user_permission'
         ];
         fieldsToHide.forEach(fieldname => {
             frm.set_df_property(fieldname, 'hidden', 1);
@@ -41,156 +46,7 @@ function field_tab_hide(frm) {
         // frm.set_df_property('user_id', 'read_only', 1)
     }
 }
-function create_user_and_set_permissions(frm) {
-    let first_name = frm.doc.first_name;
-    let email = frm.doc.personal_email;
-    let role = frm.doc.custom_select_role;
-    let new_password = frm.doc.custom_password;
 
-    if (frm.doc.custom_create_user == 1) {
-        // Create user
-        frappe.call({
-            method: 'frappe.client.insert',
-            args: {
-                doc: {
-                    doctype: 'User',
-                    first_name: first_name,
-                    email: email,
-                    module_profile: 'Empty',
-                    role_profile_name: role,
-                    send_welcome_email: 0,
-                    new_password: new_password
-                }
-            },
-            callback: function (response) {
-                if (!response.exc) {
-                    // Show alert that user has been created
-                    frappe.show_alert(__('User created for ' + frm.doc.first_name));
-
-                    let default_cost_center = 'Main - VE'
-                    // Set user permissions for single branch
-                    if (frm.doc.custom_assign_employee_to_multiple_branch === 0) {
-                        let branch = frm.doc.branch;
-                        let store = frm.doc.custom_store;
-                        let cost_center = frm.doc.custom_cost_center
-
-                        frappe.call({
-                            method: 'frappe.client.insert',
-                            args: {
-                                doc: {
-                                    doctype: 'User Permission',
-                                    user: email,
-                                    allow: 'Branch',
-                                    for_value: branch
-                                }
-                            },
-                        });
-
-                        // Set permission for Warehouse
-                        frappe.call({
-                            method: 'frappe.client.insert',
-                            args: {
-                                doc: {
-                                    doctype: 'User Permission',
-                                    user: email,
-                                    allow: 'Warehouse',
-                                    for_value: store
-                                }
-                            },
-                        });
-
-                        // set permissions for cost center
-                        frappe.call({
-                            method: 'frappe.client.insert',
-                            args: {
-                                doc: {
-                                    doctype: 'User Permission',
-                                    user: email,
-                                    allow: 'Cost Center',
-                                    for_value: cost_center
-                                }
-                            },
-                        });
-
-                        // default cost center permission
-                        frappe.call({
-                            method: 'frappe.client.insert',
-                            args: {
-                                doc: {
-                                    doctype: 'User Permission',
-                                    user: email,
-                                    allow: 'Cost Center',
-                                    for_value: default_cost_center
-                                }
-                            },
-                        });
-
-                    }
-                    // set multipermissions 
-                    else if (frm.doc.custom_assign_employee_to_multiple_branch == 1) {
-                        let branch_store = frm.doc.custom_select_branch_and_store;
-                        branch_store.forEach(element => {
-                            let branch = element.branch;
-                            let store = element.store;
-                            let cost_center = element.cost_center
-
-                            // Set permission for Branch
-                            frappe.call({
-                                method: 'frappe.client.insert',
-                                args: {
-                                    doc: {
-                                        doctype: 'User Permission',
-                                        user: email,
-                                        allow: 'Branch',
-                                        for_value: branch
-                                    }
-                                },
-                            });
-
-                            // Set permission for Warehouse
-                            frappe.call({
-                                method: 'frappe.client.insert',
-                                args: {
-                                    doc: {
-                                        doctype: 'User Permission',
-                                        user: email,
-                                        allow: 'Warehouse',
-                                        for_value: store
-                                    }
-                                },
-                            });
-
-                            // set permissions for cost center
-                            frappe.call({
-                                method: 'frappe.client.insert',
-                                args: {
-                                    doc: {
-                                        doctype: 'User Permission',
-                                        user: email,
-                                        allow: 'Cost Center',
-                                        for_value: cost_center
-                                    }
-                                },
-                            });
-                        });
-                        frappe.call({
-                            method: 'frappe.client.insert',
-                            args: {
-                                doc: {
-                                    doctype: 'User Permission',
-                                    user: email,
-                                    allow: 'Cost Center',
-                                    for_value: default_cost_center
-                                }
-                            },
-                        });
-
-                    }
-                }
-            }
-        });
-    }
-}
 function display_all_branch(frm) {
     frappe.call({
         method: 'frappe.client.get_list',
@@ -200,6 +56,7 @@ function display_all_branch(frm) {
         },
         callback: function (r) {
             if (r.message) {
+
                 // clear existing table
                 frm.clear_table('custom_select_branch_and_store')
 
@@ -214,4 +71,39 @@ function display_all_branch(frm) {
             }
         }
     });
+}
+
+function read_only_branch(frm) {
+    // Array of field names
+    const fields = [
+        'custom_create_user',
+        'create_user_permission',
+        'custom_select_branch_and_store',
+        'custom_select_role',
+        'custom_password',
+        'custom_assign_employee_to_multiple_branch',
+        'personal_email'
+    ];
+
+    // Loop through the fields and set them to read-only
+    fields.forEach(function (field) {
+        frm.set_df_property(field, 'read_only', 1);
+    });
+
+
+}
+
+function get_branch_and_store(frm) {
+    const branch = [];
+    const store = [];
+    const cost_center = [];
+    frm.doc.custom_select_branch_and_store.forEach(function (row) {
+        branch.push(row.branch);
+        store.push(row.store);
+        cost_center.push(row.cost_center);
+    });
+    console.log('Branch:', branch);
+    console.log('Store:', store);
+    console.log('Cost Center:', cost_center);
+    
 }
