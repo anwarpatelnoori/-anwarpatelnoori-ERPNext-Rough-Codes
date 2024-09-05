@@ -2,13 +2,16 @@ frappe.ui.form.on('Employee', {
     refresh: function (frm) {
         field_tab_hide(frm)
         if (frm.doc.user_id) {
-            // read_only_branch(frm)
+            read_only_branch(frm)
         }
     },
     custom_assign_employee_to_multiple_branch: function (frm) {
         if (frm.doc.custom_assign_employee_to_multiple_branch == 1) {
             display_all_branch(frm)
         }
+    },
+    custom_addremove_branch: function(frm){
+        edit_only_branch(frm)
     }
 });
 // Child Table Branch and Store
@@ -89,10 +92,31 @@ function read_only_branch(frm) {
     fields.forEach(function (field) {
         frm.set_df_property(field, 'read_only', 1);
     });
-
-
 }
+function edit_only_branch(frm) {
+    // Array of field names
+    const fields = [
+        'custom_create_user',
+        'create_user_permission',
+        'custom_select_branch_and_store',
+        'custom_select_role',
+        'custom_password',
+        'custom_assign_employee_to_multiple_branch',
+        'personal_email'
+    ];
 
+    // Loop through the fields and set them to read-only
+    if (frm.doc.custom_addremove_branch==1){
+        fields.forEach(function (field) {
+            frm.set_df_property(field, 'read_only', 0);
+        });
+    }
+    else{
+        fields.forEach(function (field) {
+            frm.set_df_property(field, 'read_only', 1);
+        });
+    }
+}
 function get_branch_and_store(frm) {
     const branch = [];
     const store = [];
