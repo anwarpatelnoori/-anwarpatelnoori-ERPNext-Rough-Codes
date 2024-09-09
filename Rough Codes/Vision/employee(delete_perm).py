@@ -1,4 +1,4 @@
-prev_permisssions  =  frappe.get_doc('Employee','HR-EMP-00060')
+prev_permisssions  =  frappe.get_doc('Employee',doc.name)
 prev_branch = []
 prev_store = []
 prev_cost_center = []
