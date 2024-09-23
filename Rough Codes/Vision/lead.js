@@ -4,7 +4,6 @@ frappe.ui.form.on('Lead', {
     hide_button(frm)
   },
   after_save: function (frm) {
-    hide_fields(frm)
     hide_button(frm)
     service_button(frm)
     add_todo(frm)
@@ -13,6 +12,9 @@ frappe.ui.form.on('Lead', {
     hide_fields(frm)
     hide_button(frm)
     service_button(frm)
+    if (frm.doc.__islocal){
+        frm.set_value('custom_current_employee_user_id',frappe.user.name)
+    }
 
   },
 

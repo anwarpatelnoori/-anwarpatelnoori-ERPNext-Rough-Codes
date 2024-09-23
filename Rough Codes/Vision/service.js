@@ -1,6 +1,7 @@
 frappe.ui.form.on("Service", {
     before_load:function(frm){
         deafult_branch(frm)
+        lead_data(frm)
     },
     setup: function (frm) {
         frm.compute_total = (frm) => {
@@ -25,9 +26,6 @@ frappe.ui.form.on("Service", {
         let total_amount = sub_total - discount_on_amount;
         console.log(`total amount is ${total_amount}}`);
         frm.set_value('total_amount', total_amount);
-    },
-    on_load:function(frm){
-        lead_data(frm)
     },
     refresh:function(frm){
         add_sales_invoice_button(frm)
@@ -95,8 +93,6 @@ function add_sales_invoice_button(frm) {
                         amount: part.total
                     })),
                     custom_branch:frm.doc.branch,
-                    grand_total: frm.doc.total_amount, // You might want to add taxes or other charges
-                    custom_minimum_service_charges:frm.doc.minimum_service_charges
                 }
             },
             callback: function(response) {
@@ -120,13 +116,16 @@ function deafult_branch(frm) {
                 filters: [
                     ['personal_email', '=', frappe.session.user]
                 ],
-                fields: ['employee_name', 'branch']
+                fields: ['employee_name', 'branch','name']
             },
             callback: function (r) {
                 if (r.message) {
                     let employee = r.message[0]
                     console.log(employee);
-                    frm.set_value('custom_branch', employee.branch)
+                    frm.set_value('branch', employee.branch)
+                    frm.set_value('employee_code', employee.name)
+                    frm.set_df_property('branch', 'read_only', 1);
+                    frm.set_df_property('employee_code', 'read_only', 1);
                 }
             }
         })
