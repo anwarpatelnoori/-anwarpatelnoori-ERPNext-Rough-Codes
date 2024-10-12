@@ -1,20 +1,10 @@
 frappe.ui.form.on('Purchase Receipt', {
     refresh:function(frm) {
         hide_field(frm)
-        // if (frm.doc.__islocal){
-        //     frm.set_value('custom_current_employee_user_id',frappe.user.name)
-        // }
-    },
-    before_load: function (frm) {
-        hide_field(frm)
-        // default_employee(frm)
-    },
-    onload: function (frm) {
-        hide_field(frm)
-        // default_employee(frm)
+        default_employee_and_warehouse(frm)
     },
     before_save: function (frm) {
-        // default_cost_center(frm)
+        default_cost_center_in_child_table(frm)
     }
 })
 function hide_field(frm) {
@@ -33,7 +23,7 @@ function hide_field(frm) {
         })
     }
 }
-function default_employee(frm) {
+function default_employee_and_warehouse(frm) {
     if (frm.is_new()) {
         frappe.call({
             method: 'frappe.client.get_list',
@@ -50,12 +40,12 @@ function default_employee(frm) {
                     console.log(employee);
                     frm.set_value('custom_branch', employee.branch)
                     frm.set_value('custom_store', employee.custom_store)
-                    frm.set_value('custom_cost_center', employee.custom_cost_center)
+                    frm.set_value('cost_center', employee.custom_cost_center)
                     frm.set_value('set_warehouse',employee.custom_store)
 
                     frm.set_df_property('custom_branch', 'read_only', 1)
                     frm.set_df_property('custom_store', 'read_only', 1)
-                    frm.set_df_property('custom_cost_center', 'read_only', 1)
+                    frm.set_df_property('cost_center', 'read_only', 1)
                 }
             }
         })
@@ -63,10 +53,10 @@ function default_employee(frm) {
     else {
         frm.set_df_property('custom_branch', 'read_only', 1)
         frm.set_df_property('custom_store', 'read_only', 1)
-        frm.set_df_property('custom_cost_center', 'read_only', 1)
+        frm.set_df_property('cost_center', 'read_only', 1)
     }
 }
-function default_cost_center(frm) {
+function default_cost_center_in_child_table(frm) {
     frm.doc.items.forEach((item, index) => {
         frappe.model.set_value(item.doctype, item.name, 'cost_center', frm.doc.custom_cost_center);
     });
