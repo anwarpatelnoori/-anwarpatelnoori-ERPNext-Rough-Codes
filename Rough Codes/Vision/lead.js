@@ -13,6 +13,7 @@ frappe.ui.form.on('Lead', {
     hide_button(frm)
     service_button(frm)
     if (frm.doc.__islocal){
+        frm.set_value('custom_current_employee_user_id_',frappe.user.name)
         frm.set_value('custom_current_employee_user_id',frappe.user.name)
     }
 

@@ -4,6 +4,18 @@ frappe.ui.form.on('Employee', {
         if (frm.doc.user_id) {
             read_only_branch(frm)
         }
+        frm.set_query("custom_employee_cash_account", (doc) => {
+            return {
+                filters: {
+                    "company": "Brightoak Infotech Pvt Ltd",
+                    "parent_account":"Cash In Hand - BIPL",
+                    "account_type":"Cash",
+                    "root_type":"Asset",
+                    "freeze_account":"No",
+                    "is_group":0 
+                }
+            }
+        });
     },
     custom_assign_employee_to_multiple_branch: function (frm) {
         if (frm.doc.custom_assign_employee_to_multiple_branch == 1) {
@@ -12,8 +24,10 @@ frappe.ui.form.on('Employee', {
     },
     custom_addremove_branch: function(frm){
         edit_only_branch(frm)
-    }
+    },
 });
+
+
 // Child Table Branch and Store
 frappe.ui.form.on('Branch and Store', {
     custom_select_branch_and_store_remove: function(frm, cdt, cdn) {
@@ -99,8 +113,6 @@ function edit_only_branch(frm) {
         'custom_create_user',
         'create_user_permission',
         'custom_select_branch_and_store',
-        'custom_select_role',
-        'custom_password',
         'custom_assign_employee_to_multiple_branch',
         'personal_email'
     ];

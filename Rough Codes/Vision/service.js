@@ -28,7 +28,9 @@ frappe.ui.form.on("Service", {
         frm.set_value('total_amount', total_amount);
     },
     refresh:function(frm){
-        add_sales_invoice_button(frm)
+        if (frm.doc.workflow_state=='Completed' || frm.doc.workflow_state=='Cancelled by Engineer' || frm.doc.workflow_state=='Customer not Intersted') {
+            add_sales_invoice_button(frm)
+        }
     }
 });
 
@@ -74,25 +76,47 @@ function add_sales_invoice_button(frm) {
                 item_name: spare_part.item_name,
                 quantity: spare_part.quantity,
                 price: spare_part.price,
-                total: spare_part.total
+                total: spare_part.total,
             };
         });
-        // Create the Sales Invoice
         frappe.call({
             method: 'frappe.client.insert',
             args: {
                 doc: {
                     doctype: 'Sales Invoice',
                     customer: customer_name,
-                    set_warehouse:frm.doc.store,
-                    items: spare_parts.map(part => ({
-                        item_code: part.item_code,
-                        item_name: part.item_name,
-                        qty: part.quantity,
-                        rate: part.price,
-                        amount: part.total
-                    })),
-                    custom_branch:frm.doc.branch,
+                    set_warehouse: frm.doc.store,
+                    items: [
+                        {
+                            item_code: 'Minimum Service Charges',
+                            item_name: 'Minimum Service Charges',
+                            qty: 1,
+                            rate: frm.doc.minimum_service_charges,
+                            amount: frm.doc.minimum_service_charges
+                        },
+                        ...spare_parts.map(part => ({
+                            item_code: part.item_code,
+                            item_name: part.item_name,
+                            qty: part.quantity,
+                            rate: part.price,
+                            amount: part.total
+                        }))
+                    ],
+                    custom_branch: frm.doc.branch,
+                    taxes_and_charges: 'Output GST In-state - VE',
+                    taxes: [{
+                            charge_type: 'On Net Total',
+                            account_head: 'Output Tax SGST - VE',
+                            rate: 9,
+                            description: 'Output GST In-state - VE'
+                        },
+                        {
+                            charge_type: 'On Net Total',
+                            account_head: 'Output Tax CGST - VE',
+                            rate: 9,
+                            description: 'Output GST In-state - VE'
+                        }
+                    ],
                 }
             },
             callback: function(response) {
@@ -104,6 +128,7 @@ function add_sales_invoice_button(frm) {
                 }
             }
         });
+        
     });
 }
 
