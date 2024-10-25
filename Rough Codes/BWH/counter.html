@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id ="increment_button" onclick="increase_value()">Increment using onclick func</button>
+    <p id="value_1">1</p>
+    <button id ="reset-1" onclick="reset_value()">Rest using onclick func</button>
+    <br>
+    <br>
+    <button id ="increment_button2">Increment using addlistener</button>
+    <p id="value_2">1</p>
+    <button id ="reset-2">Reset using addlistener</button>
+</body>
+<script>
+    let count_1 = 0;
+    let change_value_1 = document.getElementById('value_1')
+    function increase_value(){
+        count_1++
+        change_value_1.innerText=count_1
+    }
+    function reset_value(){
+        count_1=0
+        change_value_1.innerText=count_1
+    }
+
+
+    let count_2 =0;
+    let increment_button = document.getElementById('increment_button2')
+    let reset_button = document.getElementById('reset-2')
+
+    let change_value_2 = document.getElementById('value_2')
+    function increase_value_2(){
+        count_2++
+        change_value_2.innerText=count_2
+    }
+    increment_button.addEventListener("click",increase_value_2)
+    reset_button.addEventListener("click",()=>{
+        change_value_2.innerText=0
+    })
+</script>
+</html>

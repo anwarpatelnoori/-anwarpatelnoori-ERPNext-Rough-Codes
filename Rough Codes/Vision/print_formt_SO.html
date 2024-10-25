@@ -1,46 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .invoice-container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-top: 10px solid #1e40af;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header .invoice-title {
+            font-size: 32px;
+            color: #1e40af;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+
+        .section p {
+            margin: 5px 0;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .info-table th,
+        .info-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .info-table th {
+            background-color: #1e40af;
+            color: #fff;
+            text-align: left;
+        }
+
+        .info-table td {
+            text-align: right;
+        }
+
+        .info-table td:first-child {
+            text-align: left;
+        }
+
+        .total-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .total-table th,
+        .total-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .total-table th {
+            background-color: #1e40af;
+            color: #fff;
+            text-align: left;
+        }
+
+        .total-table td {
+            text-align: right;
+        }
+
+        .total-table td:first-child {
+            text-align: left;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+
 <body>
-
-    {% set letter_head = frappe.get_doc("Letter Head",'Vision Letter Head')%}
-    <div class="sales-order-form">
-        <div class="letter-head">
-            <img src="{{ letter_head.image }}" alt="Letter Head Image">
-        </div>
-        <h2>Sales Order</h2>
-        <div class="customer-details">
-            <p>Sales Order No: {{ doc.name }}</p>
-            <p>Date: {{ doc.transaction_date}}</p>
-            <p>Delivery Date: {{ doc.delivery_date}}</p>
-            <p>Customer Name: {{ doc.customer }}</p>
-            <p>Mobile No: {{ doc.custom_mobile_number }}</p>
-            <p>Address: {{ doc.custom_full_address }}</p>
-        </div>
-        <div class="table-responsive">
-            <h3></h3>
-            <table class="items">
-                <tr>
-                    <th>HSN Code</th>
-                    <th>Rate</th>
-                    <th>Quantity</th>
-                    <th>Amount</th>
-                </tr>
-                {% for row in doc.items %}
-                <tr>
-                    <td>{{ row.item_code }}</td>
-                    <td>{{ row.rate }}</td>
-                    <td>{{ row.qty }}</td>
-                    <td>₹ {{ row.amount }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-            <div class="total">
-                <p>Total Quantity: {{ doc.total_qty}}</p>
-                <p>Totoal INR: ₹ {{ doc.total }}</p>
-                <p>Taxes: {{ doc.taxes_and_charges }}</p>
-                <p>Total Taxes Charges: ₹ {{ doc.total_taxes_and_charges }}</p>
-                <p>Grand Total: ₹ {{ doc.grand_total }}</p>
-                <p>In Words: {{ doc.in_words }} </p>
+    <div class="invoice-container">
+        <header class="header">
+            <div>
+                <h1>S.K.P.S DIGITAL</h1>
+                <p>Okhla Industrial Area,<br>New Delhi-110020<br>GSTIN 898989898989</p>
             </div>
-        </div>
+            <div>
+                <h1 class="invoice-title">INVOICE</h1>
+            </div>
+        </header>
+        <section class="section">
+            <div style="float: left; width: 48%;">
+                <h2>BILL TO :</h2>
+                <p>Nazim Khan<br>Sector-200, Noida, U.P.<br>Uttar Pradesh<br>Phone : 8888888888<br>GSTIN :
+                    6969696969696969</p>
+            </div>
+            <div style="float: right; width: 48%;">
+                <h2>SHIP TO :</h2>
+                <p>Nazim Khan<br>Sector-200, Noida, U.P.<br>Uttar Pradesh<br>Phone : 8888888888<br>GSTIN :
+                    6969696969696969</p>
+            </div>
+            <div style="clear: both;"></div>
+        </section>
+        <section class="section">
+            <div style="float: left; width: 48%;">
+                <p><strong>Invoice No.:</strong> 4649845</p>
+                <p><strong>Invoice Date:</strong> 08-03-2021</p>
+            </div>
+            <div style="float: right; width: 48%;">
+                <p><strong>Order No.:</strong> skps164516</p>
+                <p><strong>Due Date:</strong> 15-03-2021</p>
+            </div>
+            <div style="clear: both;"></div>
+        </section>
+        <section class="section">
+            <table class="info-table">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>DESCRIPTION</th>
+                        <th>HSN NO.</th>
+                        <th>QTY.</th>
+                        <th>RATE</th>
+                        <th>AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>ITEM NAME 2</td>
+                        <td>2541</td>
+                        <td>26</td>
+                        <td>Rs. 235.52</td>
+                        <td>Rs. 6,123.52</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>ITEM NAME 3</td>
+                        <td>4940</td>
+                        <td>2</td>
+                        <td>Rs. 658.00</td>
+                        <td>Rs. 1,316.00</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>ITEM NAME 4</td>
+                        <td>2546</td>
+                        <td>50</td>
+                        <td>Rs. 485.00</td>
+                        <td>Rs. 24,250.00</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>ITEM NAME 5</td>
+                        <td>8151</td>
+                        <td>15</td>
+                        <td>Rs. 215.00</td>
+                        <td>Rs. 3,225.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="section">
+            <div style="float: left; width: 48%; border: 1px solid #ddd; padding: 10px;">
+                <p>Make All Cheque Payable to</p>
+                <h2>S.K.P.S DIGITAL</h2>
+                <p>Bank Account Details:</p>
+                <p>A/C- 0000000000000000</p>
+                <p>IFSC- BANK0000000</p>
+                <p>CITY- BRANCH NAME</p>
+            </div>
+            <div style="float: right; width: 48%;">
+                <table class="total-table">
+                    <tbody>
+                        <tr>
+                            <td><strong>TOTAL</strong></td>
+                            <td>Rs. 34,914.52</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DISCOUNT @ 1%</strong></td>
+                            <td>Rs. 349.15</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TAXABLE AMOUNT</strong></td>
+                            <td>Rs. 34,565.37</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SGST RATE @ 6%</strong></td>
+                            <td>Rs. 2,073.92</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CGST RATE @ 9%</strong></td>
+                            <td>Rs. 3,110.88</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PAYABLE AMOUNT</strong></td>
+                            <td>Rs. 39,750.18</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="clear: both;"></div>
+            <p style="margin-top: 10px;">Please include the Invoice number in your payment notes. To be paid in full in
+                maximum 7 days after receiving the invoice.</p>
+        </section>
+        <footer>
+            <p><strong>Authorized Sign.</strong></p>
+            <p>Okhla Industrial Area, New Delhi-110020, Phone No. +919999999999, E-mail- example@mail.com</p>
+            <p>THANK YOU! WE APPRECIATE YOUR BUSINESS</p>
+        </footer>
     </div>
-
 </body>
+
+</html>

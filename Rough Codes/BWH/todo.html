@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo</title>
+</head>
+<body>
+    <h2>My To Do</h2>
+    <form id="todo_form">
+        <label for="to_do_description">Description</label>
+        <input required id="to_do_description" name="todo" type="text">
+        <input type="submit" value="Add">
+    </form>
+    <ol id="todo_list">
+    </ol>
+</body>
+<script>
+    const todos = []
+    const to_do_form = document.getElementById("todo_form")
+    const to_do_list = document.getElementById("todo_list")
+
+    to_do_form.addEventListener("submit", (e) => {
+        e.preventDefault()
+        const data = new FormData(to_do_form);
+        const todo = data.get("todo");
+        todos.push(todo)
+        render_todo()
+        to_do_form.reset()
+    })
+
+    function render_todo() {
+        let listHTML = ""
+        for (let i = 0; i < todos.length; i++) {
+            listHTML += `
+            <li id="todo_${i}">${todos[i]}
+                <button onclick="delete_to_do(${i})">Delete</button>
+                <button onclick="edit_to_do(${i})">Edit</button>
+            </li>
+            `
+        }
+        to_do_list.innerHTML = listHTML
+    }
+
+    function delete_to_do(index) {
+        todos.splice(index, 1)
+        render_todo()
+    }
+
+    function edit_to_do(index) {
+        const currentTodo = todos[index]
+        const todoItem = document.getElementById(`todo_${index}`)
+        
+        // Replace the current list item content with an input and save button
+        todoItem.innerHTML = `
+            <input type="text" id="edit_input_${index}" value="${currentTodo}">
+            <button onclick="save_edit(${index})">Save</button>
+            <button onclick="cancel_edit(${index})">Cancel</button>
+        `
+    }
+
+    function save_edit(index) {
+        const editInput = document.getElementById(`edit_input_${index}`)
+        const updatedTodo = editInput.value
+        todos[index] = updatedTodo
+        render_todo()
+    }
+
+    function cancel_edit(index) {
+        render_todo() // Simply re-render the list to cancel edit mode
+    }
+</script>
+</html>
