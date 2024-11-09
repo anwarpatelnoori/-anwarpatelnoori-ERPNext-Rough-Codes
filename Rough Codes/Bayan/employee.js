@@ -7,9 +7,6 @@ frappe.ui.form.on('Employee', {
 function read_only_fields(frm) {
     let user = frappe.user.name;
     if (user != 'anwar@standardtouch.com' && user != 'nasir@standardtouch.com' && user != 'zaid@standardtouch.com') {
-
-
-
         // Get all fields from the document meta (fields declared in the form)
         let all_field_names = cur_frm.meta.fields.map(field => field.fieldname);
         let editable_fields = [
@@ -37,5 +34,10 @@ function read_only_fields(frm) {
         tab_break_to_hide.forEach(tab_name => {
             $(`a[data-fieldname="${tab_name}"]`).hide()
         });
+        if (user === 'elementarylead@bayaanacademy.com' || user === 'middleschoollead@bayaanacademy.com' || user === 'highschoollead@bayaanacademy.com' || user === "hr@bayaanacademy.com" || user === "director@bayaanacademy.com") {
+            frm.set_df_property('department', 'read_only', 0);
+            frm.set_df_property('designation', 'read_only', 0);
+            
+        }
     }
 }
