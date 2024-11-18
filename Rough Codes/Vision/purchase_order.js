@@ -1,17 +1,14 @@
 frappe.ui.form.on('Purchase Order', {
-    refresh(frm) {
+    refresh:function(frm) {
         hide_field(frm)
-    },
-    before_load: function (frm) {
-        hide_field(frm)
-        default_employee(frm)
-    },
-    onload: function (frm) {
-        hide_field(frm)
-        default_employee(frm)
+        deafult_employee_branch_store_cost_center(frm)
+        if (frm.doc.__islocal){
+            frm.set_value('custom_current_employee_user_id',frappe.user.name)
+            frm.set_value('custom_current_employee_user_id_',frappe.user.name)
+        }
     },
     before_save: function (frm) {
-        default_cost_center(frm)
+        set_cost_center_in_taxes_and_warehouse_in_item(frm)
     }
 })
 function hide_field(frm) {
@@ -35,46 +32,44 @@ function hide_field(frm) {
         })
     }
 }
-function default_employee(frm) {
-    if (frm.is_new()) {
-        frappe.call({
-            method: 'frappe.client.get_list',
-            args: {
-                doctype: 'Employee',
-                filters: [
-                    ['personal_email', '=', frappe.session.user]
-                ],
-                fields: ['employee_name', 'branch', 'custom_store', 'custom_cost_center']
-            },
-            callback: function (r) {
-                if (r.message) {
-                    let employee = r.message[0]
-                    console.log(employee);
-                    frm.set_value('custom_branch', employee.branch)
-                    frm.set_value('custom_store', employee.custom_store)
-                    frm.set_value('custom_cost_center', employee.custom_cost_center)
-                    frm.set_value('set_warehouse',employee.custom_store)
-
-                    frm.set_df_property('custom_branch', 'read_only', 1)
-                    frm.set_df_property('custom_store', 'read_only', 1)
-                    frm.set_df_property('custom_cost_center', 'read_only', 1)
+function deafult_employee_branch_store_cost_center(frm) {
+    if (frappe.session.user != 'anwar@standardtouch.com') {
+        if (frm.is_new()) {
+            frappe.call({
+                method: 'frappe.client.get_list',
+                args: {
+                    doctype: 'Employee',
+                    filters: [
+                        ['personal_email', '=', frappe.session.user]
+                    ],
+                    fields: ['employee_name', 'branch', 'name', 'custom_assign_employee_to_multiple_branch']
+                },
+                callback: function (r) {
+                    if (r.message) {
+                        let employee = r.message[0]
+                        console.log(employee);
+                        frm.set_value('custom_employee_id', employee.name)
+                        if (employee.custom_assign_employee_to_multiple_branch == 1) {
+                            frm.set_df_property('custom_branch', 'reqd', 1)
+                            frm.set_value('custom_branch', '')
+                        }
+                        else {
+                            frm.set_value('custom_branch', employee.branch)
+                        }
+                    }
                 }
-            }
-        })
-    }
-    else {
-        frm.set_df_property('custom_branch', 'read_only', 1)
-        frm.set_df_property('custom_store', 'read_only', 1)
-        frm.set_df_property('custom_cost_center', 'read_only', 1)
+            })
+        }
     }
 }
-function default_cost_center(frm) {
-    frm.doc.items.forEach((item, index) => {
+function set_cost_center_in_taxes_and_warehouse_in_item(frm) {
+    frm.doc.taxes.forEach((item, index) => {
         frappe.model.set_value(item.doctype, item.name, 'cost_center', frm.doc.custom_cost_center);
     });
-    if (frm.doc.taxes !== undefined) {
-        frm.doc.taxes.forEach((item, index) => {
-            frappe.model.set_value(item.doctype, item.name, 'cost_center', frm.doc.cost_center);
-        });
-    }
-}
+    frm.doc.items.forEach((item, index) => {
+        frappe.model.set_value(item.doctype, item.name, 'warehouse', frm.doc.custom_store);
+        frappe.model.set_value(item.doctype, item.name, 'cost_center', frm.doc.custom_cost_center);
+    });
+    frm.refresh_field('taxes');
+    frm.refresh_field('items');
+};

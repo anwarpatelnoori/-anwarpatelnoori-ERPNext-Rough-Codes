@@ -4,86 +4,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
+    <title>Document</title>
     <link rel="stylesheet" href="print.css">
-
 </head>
 
 <body>
     <div class="invoice-container">
         <header class="header">
-            <div>
-                <h1>S.K.P.S DIGITAL</h1>
-                <p>Okhla Industrial Area,<br>New Delhi-110020<br>GSTIN 898989898989</p>
-            </div>
-            <div>
-                <h1 class="invoice-title">INVOICE</h1>
-            </div>
+            <img src="Digambar Letter Head(1800 x 300 px).png" alt="letter-head" width="800px">
         </header>
         <section class="section">
-            <div class="info-box left">
-                <h2 class="header-bill-ship">BILL TO :</h2>
-                <table class="details">
+            <div class="table-container" style="overflow: hidden;">
+                <table class="bill-to">
                     <tr>
+                        <td colspan="2" id="table-heading-bg" >BILL TO:</td>
+                    </tr>
+                    <tr>
+                        <td>Bill To</td>
                         <td>Nazim Khan</td>
                     </tr>
                     <tr>
+                        <td>Address</td>
                         <td>Sector-200, Noida, U.P.</td>
                     </tr>
                     <tr>
+                        <td>State</td>
                         <td>Uttar Pradesh</td>
                     </tr>
                     <tr>
-                        <td>Phone : 8888888888</td>
+                        <td>Phone</td>
+                        <td>8888888888</td>
                     </tr>
                     <tr>
-                        <td>GSTIN : 6969696969696969</td>
+                        <td>GSTIN</td>
+                        <td>6969696969696969</td>
                     </tr>
                 </table>
-            </div>
-            <div class="info-box right">
-                <h2 class="header-bill-ship">SHIP TO :</h2>
-                <table class="details">
+                <table class="ship-to">
                     <tr>
+                        <td colspan="2" id="table-heading-bg" >SHIP TO:</td>
+                    </tr>
+                    <tr>
+                        <td>Ship To</td>
                         <td>Nazim Khan</td>
                     </tr>
                     <tr>
+                        <td>Address</td>
                         <td>Sector-200, Noida, U.P.</td>
                     </tr>
                     <tr>
+                        <td>State</td>
                         <td>Uttar Pradesh</td>
                     </tr>
                     <tr>
-                        <td>Phone : 8888888888</td>
+                        <td>Phone</td>
+                        <td>8888888888</td>
                     </tr>
                     <tr>
-                        <td>GSTIN : 6969696969696969</td>
+                        <td>GSTIN</td>
+                        <td>6969696969696969</td>
                     </tr>
                 </table>
             </div>
             <div style="clear: both;"></div>
         </section>
-
-
-
         <section class="section">
-            <table class="info-table">
+            <table class="invoice-details">
                 <tr>
-                    <td style="width: 50%;">
-                        <p><strong>Invoice No.:</strong> 4649845</p>
-                        <p><strong>Invoice Date:</strong> 08-03-2021</p>
-                    </td>
-                    <td style="width: 50%;">
-                        <p><strong>Order No.:</strong> skps164516</p>
-                        <p><strong>Due Date:</strong> 15-03-2021</p>
-                    </td>
+                    <td>Invoice No:</td>
+                    <td>4649845</td>
+                    <td>Order No:</td>
+                    <td>skps164516</td>
+                </tr>
+                <tr>
+                    <td>Invoice Date:</td>
+                    <td>08-03-2021</td>
+                    <td>Due Date:</td>
+                    <td>15-03-2021</td>
                 </tr>
             </table>
-        </section>
-        
-
-
-
+        </section>        
         <section class="section">
             <table class="info-table">
                 <thead>
@@ -132,53 +132,54 @@
                 </tbody>
             </table>
         </section>
-        <section class="section">
-            <div style="float: left; width: 48%; border: 1px solid #ddd; padding: 10px;">
-                <p>Make All Cheque Payable to</p>
-                <h2>S.K.P.S DIGITAL</h2>
-                <p>Bank Account Details:</p>
-                <p>A/C- 0000000000000000</p>
-                <p>IFSC- BANK0000000</p>
-                <p>CITY- BRANCH NAME</p>
-            </div>
-            <div style="float: right; width: 48%;">
-                <table class="total-table">
-                    <tbody>
-                        <tr>
-                            <td><strong>TOTAL</strong></td>
-                            <td>Rs. 34,914.52</td>
-                        </tr>
-                        <tr>
-                            <td><strong>DISCOUNT @ 1%</strong></td>
-                            <td>Rs. 349.15</td>
-                        </tr>
-                        <tr>
-                            <td><strong>TAXABLE AMOUNT</strong></td>
-                            <td>Rs. 34,565.37</td>
-                        </tr>
-                        <tr>
-                            <td><strong>SGST RATE @ 6%</strong></td>
-                            <td>Rs. 2,073.92</td>
-                        </tr>
-                        <tr>
-                            <td><strong>CGST RATE @ 9%</strong></td>
-                            <td>Rs. 3,110.88</td>
-                        </tr>
-                        <tr>
-                            <td><strong>PAYABLE AMOUNT</strong></td>
-                            <td>Rs. 39,750.18</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div style="clear: both;"></div>
-            <p style="margin-top: 10px;">Please include the Invoice number in your payment notes. To be paid in full in
-                maximum 7 days after receiving the invoice.</p>
-        </section>
+        <table class="invoice-table">
+            <tr class="header-row">
+                <td colspan="2">Make All Cheque Payable to</td>
+                <td colspan="2">TOTAL</td>
+                <td class="amount">Rs. 34,914.52</td>
+            </tr>
+            <tr>
+                <td colspan="2">S.K.P.S DIGITAL</td>
+                <td colspan="2">DISCOUNT @ 1%</td>
+                <td class="amount">Rs. 349.15</td>
+            </tr>
+            <tr class="header-row">
+                <td colspan="2">Bank Account Details</td>
+                <td colspan="2">TAXABLE AMOUNT</td>
+                <td class="amount">Rs. 34,565.37</td>
+            </tr>
+            <tr>
+                <td>A/C</td>
+                <td>000000000000000</td>
+                <td colspan="2">SGST RATE @ 6%</td>
+                <td class="amount">Rs. 2,073.92</td>
+            </tr>
+            <tr>
+                <td>IFSC</td>
+                <td>BANK00000000</td>
+                <td colspan="2">CGST RATE @ 9%</td>
+                <td class="amount">Rs. 3,110.88</td>
+            </tr>
+            <tr>
+                <td>CITY</td>
+                <td>BRANCH NAME</td>
+                <td colspan="2">PAYABLE AMOUNT</td>
+                <td class="amount">Rs. 39,750.18</td>
+            </tr>
+            <tr>
+                <td colspan="5" class="note">
+                    <strong>Note:</strong> Please include the Invoice number in your payment notes. To be paid in full in maximum 7 days after receiving the invoice.
+                </td>
+            </tr>
+        </table>
+        
         <footer>
-            <p><strong>Authorized Sign.</strong></p>
-            <p>Okhla Industrial Area, New Delhi-110020, Phone No. +919999999999, E-mail- example@mail.com</p>
-            <p>THANK YOU! WE APPRECIATE YOUR BUSINESS</p>
+            <p style="text-align: right;"><strong>_____________________________</strong></p>
+            <p style="text-align: right;"><strong>Authorized Sign.</strong></p>
+            <div class="footer-section">
+                <p>Okhla Industrial Area, New Delhi-110020, Phone No. +919999999999, E-mail- example@mail.com</p>
+                <p id="thank">THANK YOU! WE APPRECIATE YOUR BUSINESS</p>
+            </div>
         </footer>
     </div>
 </body>

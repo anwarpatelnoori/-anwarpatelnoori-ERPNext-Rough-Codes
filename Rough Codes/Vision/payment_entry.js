@@ -1,10 +1,8 @@
 frappe.ui.form.on('Payment Entry', {
-    setup: function (frm) {
-    },
-    payment_type:function(frm){
-        if(frm.doc.payment_type==="Internal Transfer"){
-            frm.set_value('mode_of_payment','Cash')
-            frm.set_df_property('mode_of_payment','read_only',1)
+    payment_type: function (frm) {
+        if (frm.doc.payment_type === "Internal Transfer") {
+            frm.set_value('mode_of_payment', 'Cash')
+            frm.set_df_property('mode_of_payment', 'read_only', 1)
             frappe.call({
                 method: 'frappe.client.get_list',
                 args: {
@@ -28,8 +26,8 @@ frappe.ui.form.on('Payment Entry', {
                 }
             })
         }
-        else{
-            frm.set_df_property('mode_of_payment','read_only',0)
+        else {
+            frm.set_df_property('mode_of_payment', 'read_only', 0)
         }
     },
     refresh: function (frm) {
@@ -57,31 +55,33 @@ function hide_fields(frm) {
     }
 }
 function default_branch(frm) {
-    if (frm.is_new()) {
-        frappe.call({
-            method: 'frappe.client.get_list',
-            args: {
-                doctype: 'Employee',
-                filters: [
-                    ['personal_email', '=', frappe.session.user]
-                ],
-                fields: ['employee_name', 'branch', 'custom_store', 'custom_employee_cash_account']
-            },
-            callback: function (r) {
-                if (r.message) {
-                    let employee = r.message[0]
-                    console.log(employee);
-                    frm.set_value('custom_branch', employee.branch)
-                    frm.set_value('custom_store', employee.custom_store)
-                    frm.set_df_property('custom_branch', 'read_only', 1)
-                    if (frm.doc.mode_of_payment == 'Cash') {
-                        frm.set_value('paid_to', employee.custom_employee_cash_account)
+    if (frappe.session.user != 'anwar@standardtouch.com') {
+        if (frm.is_new()) {
+            frappe.call({
+                method: 'frappe.client.get_list',
+                args: {
+                    doctype: 'Employee',
+                    filters: [
+                        ['personal_email', '=', frappe.session.user]
+                    ],
+                    fields: ['employee_name', 'branch', 'custom_store', 'custom_employee_cash_account', 'name']
+                },
+                callback: function (r) {
+                    if (r.message) {
+                        let employee = r.message[0]
+                        console.log(employee);
+                        frm.set_value('custom_branch', employee.branch)
+                        frm.set_value('custom_store', employee.custom_store),
+                            frm.set_value('custom_employee_id', employee.name)
+                        frm.set_df_property('custom_branch', 'read_only', 1)
+                        if (frm.doc.mode_of_payment == 'Cash') {
+                            frm.set_value('paid_to', employee.custom_employee_cash_account)
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
     }
-
 }
 function default_cash_account(frm) {
     if (frm.is_new()) {
@@ -137,7 +137,7 @@ function set_emp_cash_account(frm) {
 function remove_pay(frm) {
     let user = frappe.user.name;
     if (user != 'anwar@standardtouch.com' && user != 'nasir@standardtouch.com' && user != 'zaid@standardtouch.com') {
-        let flag = frappe.user_roles.some(role => ['BO Technical', 'BO Service Assistant Manager', 'BO Service Manager', 'BO Service Operation Head'].includes(role));
+        let flag = frappe.user_roles.some(role => ['BO Technical', 'BO Service Assistant Manager', 'BO Service Manager', 'BO Service Operation Head', 'BO Branch Head'].includes(role));
         if (flag === true) {
             $('select[data-fieldname="payment_type"] option[value="Pay"]').remove();
         }

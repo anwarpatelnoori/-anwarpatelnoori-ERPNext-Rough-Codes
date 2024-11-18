@@ -1,16 +1,77 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
+ *{
+    font-family: poppins !important;
 }
+
+table.bill-to,table.ship-to {
+    width: 48%;
+    border-collapse: collapse;
+    border: 1px solid black;
+    float: left;
+    margin-right: 2%;
+    /* Add even spacing between the tables */
+}
+#table-heading-bg{
+    background-color: #2f2db6;
+    color:white;
+    font-weight: bold;
+}
+
+table.bill-to td, table.ship-to td {
+    border: 1px solid black;
+    padding: 2px;
+    text-align: left;
+    word-wrap: break-word; /* Ensure text breaks to the next line */
+    white-space: normal; /* Allow text wrapping */
+    vertical-align: top;/* Align text to the top for better readability */
+}
+
+table.bill-to .header,
+table.ship-to .header {
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.2em;
+    border: 1px solid black;
+}
+
+table.ship-to {
+    margin-right: 0;
+}
+
+
+table.invoice-details {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid black;
+    margin-bottom: 20px;
+    background-color: #2f2db6;
+    color: white;
+}
+
+table.invoice-details td {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+    text-align: center;
+}
+
+table.invoice-details td:first-child, 
+table.invoice-details td:nth-child(3) {
+    font-weight: bold;
+    width: 25%; /* Label columns */
+}
+
+table.invoice-details td:nth-child(2),
+table.invoice-details td:nth-child(4) {
+    width: 25%; /* Value columns */
+}
+
 
 .invoice-container {
     max-width: 800px;
     margin: auto;
     background-color: #fff;
-    padding: 20px;
-    border-top: 10px solid #1e40af;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -36,7 +97,7 @@ body {
 }
 
 .section h2 {
-    margin: 0px;
+    margin: 0 0 10px 0;
     font-size: 18px;
 }
 
@@ -50,92 +111,66 @@ body {
     margin-bottom: 20px;
 }
 
-.info-table th, .info-table td {
+.info-table th,
+.info-table td {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
 .info-table th {
-    background-color: #1e40af;
+    background-color: #2f2db6;
     color: #fff;
     text-align: left;
 }
 
 .info-table td {
-    text-align: left;
-}
-
-.total-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.total-table th, .total-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-
-.total-table th {
-    background-color: #1e40af;
-    color: #fff;
-    text-align: left;
-}
-
-.total-table td {
     text-align: right;
 }
 
-.total-table td:first-child {
+.info-table td:first-child {
     text-align: left;
 }
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    margin-bottom: 20px;
+}
+
+.invoice-table td {
+    border: 1px solid black;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+}
+
+.invoice-table td.amount {
+    text-align: right;
+}
+
+.header-row {
+    background-color: #2f2db6;
+    color: white;
+}
+
+.note {
+    font-size: 12px;
+    text-align: left;
+    padding: 10px;
+}
+
 
 footer {
     text-align: center;
     margin-top: 20px;
-    border-top: 1px solid #ddd;
     padding-top: 20px;
 }
-
-.section {
-    width: 100%;
+.footer-section{
+    border-top: 2px solid black;
 }
-
-.info-box {
-    float: left;
-    width: 40%;
-    border: 2px solid black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.header-bill-ship {
-    background-color: #1e40af;
+.footer-section #thank {
+    background-color: #2f2db6;
     color: white;
-    padding: 1px;
-    text-align: center;
-}
-
-.details {
-    font-size: 16px;
-    padding: 1px;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.details td {
-    border-bottom: 1px solid black;
-    padding: 2px 0px 2px 6px;
-}
-
-.details tr:last-child td {
-    border-bottom: none;
-}
-
-.left {
-    float: left;
-}
-
-.right {
-    float: right;
+    font-weight: bold;
 }

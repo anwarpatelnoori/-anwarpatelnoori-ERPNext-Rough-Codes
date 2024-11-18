@@ -1,6 +1,6 @@
 frappe.ui.form.on("Service", {
     before_load:function(frm){
-        deafult_branch(frm)
+        deafult_employee_branch_store_cost_center(frm)
         lead_data(frm)
     },
     setup: function (frm) {
@@ -132,7 +132,7 @@ function add_sales_invoice_button(frm) {
     });
 }
 
-function deafult_branch(frm) {
+function deafult_employee_branch_store_cost_center(frm) {
     if (frm.is_new()) {
         frappe.call({
             method: 'frappe.client.get_list',

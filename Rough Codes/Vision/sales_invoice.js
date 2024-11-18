@@ -1,11 +1,15 @@
 frappe.ui.form.on('Sales Invoice', {
     refresh: function (frm) {
-        if (frm.doc.__islocal){
-            frm.set_value('custom_current_employee_user_id',frappe.user.name)
-            frm.set_value('custom_current_employee_user_id_',frappe.user.name)
+        if (frm.doc.__islocal) {
+            frm.set_value('custom_current_employee_user_id', frappe.user.name)
+            frm.set_value('custom_current_employee_user_id_', frappe.user.name)
         }
+        deafult_employee_branch_store_cost_center(frm)
         hide_unneccassry_thing(frm)
         set_grand_total(frm)
+    },
+    before_save(frm) {
+        set_cost_center_in_taxes_and_warehouse_in_item(frm)
     },
     customer: function (frm) {
         let tab_name = 'sales-invoice-contact_and_address_tab-tab'
@@ -21,26 +25,17 @@ frappe.ui.form.on('Sales Invoice', {
         }
     }
 });
-frappe.ui.form.on('Sales Invoice Item', {
-    item_code: function (frm, cdt, cdn) {
-        set_warehouse_in_items(frm)
-        set_grand_total(frm)
-    }
-})
-
 // All fucntions
-function set_grand_total(frm) {
-    if (frm.doc.custom_minimum_service_charges && !frm.is_new()) {
-        setTimeout(() => {
-            let total_inr = frm.doc.total;
-            let min_service_charge = frm.doc.custom_minimum_service_charges;
-            let grand_total = frm.doc.grand_total;
-            let total = total_inr + min_service_charge;
-            if (total !== grand_total) {
-                frm.set_value('grand_total', total);
-            }
-        }, 200);
-    }
+function set_cost_center_in_taxes_and_warehouse_in_item(frm) {
+    frm.doc.taxes.forEach((item, index) => {
+        frappe.model.set_value(item.doctype, item.name, 'cost_center', frm.doc.custom_cost_center);
+    });
+    frm.doc.items.forEach((item, index) => {
+        frappe.model.set_value(item.doctype, item.name, 'warehouse', frm.doc.custom_store);
+        frappe.model.set_value(item.doctype, item.name, 'cost_center', frm.doc.custom_cost_center);
+    });
+    frm.refresh_field('taxes');
+    frm.refresh_field('items');
 
 }
 function hide_unneccassry_thing(frm) {
@@ -51,7 +46,7 @@ function hide_unneccassry_thing(frm) {
             'currency_and_price_list', 'time_sheet_list', 'shipping_rule', 'tax_category', 'incoterm',
             'base_rounding_adjustment', 'rounding_adjustment', 'use_company_roundoff_cost_center', 'base_rounded_total',
             'rounded_total', 'disable_rounded_total', 'total_advance', 'outstanding_amount', 'is_cash_or_non_trade_discount',
-            'totals', 'scan_barcode', 'update_stock', 'set_target_warehouse','e_waybill_status'
+            'totals', 'scan_barcode', 'update_stock', 'set_target_warehouse', 'e_waybill_status'
         ];
         fieldsToHide.forEach(fieldname => {
             frm.set_df_property(fieldname, 'hidden', 1);
@@ -71,7 +66,7 @@ function hide_unneccassry_thing(frm) {
             $('div.inner-group-button[data-label="e-Waybill"]').remove()
             buttons_formatted.forEach(button => {
                 $(frm.wrapper).find(`a.dropdown-item[data-label = "${button}"]`).remove()
-                console.log(`a.dropdown-item[data-label = "${button}"]`);
+
             })
         }, 200);
     }
@@ -96,7 +91,7 @@ function set_value(frm) {
                         let first_key = Object.keys(result_object)[0];
                         let first_value = result_object[first_key];
                         frm.set_value(sales_invoice_field_name[index], first_value);
-                        console.log(sales_invoice_field_name[index], first_value);
+                        // console.log(sales_invoice_field_name[index], first_value);
                     }
                 });
         });
@@ -126,49 +121,36 @@ function address_set(frm) {
         });
 
 }
-function set_warehouse_in_items(frm) {
-    frappe.call({
-        method: 'frappe.client.get_list',
-        args: {
-            doctype: 'Employee',
-            filters: [
-                ['personal_email', '=', frappe.session.user]
-            ],
-            fields: ['custom_store', 'custom_cost_center']
-        },
-        callback: function (r) {
-            if (r.message) {
-                let employee = r.message[0];
-                frm.doc.items.forEach((item, index) => {
-                    frappe.model.set_value(item.doctype, item.name, 'warehouse', employee.custom_store);
-                    frappe.model.set_value(item.doctype, item.name, 'cost_center', employee.custom_cost_center);
-                });
-                frm.doc.taxes.forEach((item, index) => {
-                    frappe.model.set_value(item.doctype, item.name, 'cost_center', frm.doc.cost_center);
-                });
-            }
-        }
-    });
-}
-function deafult_branch(frm) {
-    if (frm.is_new()) {
-        frappe.call({
-            method: 'frappe.client.get_list',
-            args: {
-                doctype: 'Employee',
-                filters: [
-                    ['personal_email', '=', frappe.session.user]
-                ],
-                fields: ['employee_name', 'branch']
-            },
-            callback: function (r) {
-                if (r.message) {
-                    let employee = r.message[0]
-                    console.log(employee);
-                    frm.set_value('custom_branch', employee.branch)
+function deafult_employee_branch_store_cost_center(frm) {
+    if (frappe.session.user != 'anwar@standardtouch.com') {
+        if (frm.is_new()) {
+            frappe.call({
+                method: 'frappe.client.get_list',
+                args: {
+                    doctype: 'Employee',
+                    filters: [
+                        ['personal_email', '=', frappe.session.user]
+                    ],
+                    fields: ['employee_name', 'branch', 'name', 'custom_assign_employee_to_multiple_branch']
+                },
+                callback: function (r) {
+                    if (r.message) {
+                        let employee = r.message[0]
+                        console.log(employee);
+                        frm.set_value('custom_employee_id', employee.name)
+                        if (employee.custom_assign_employee_to_multiple_branch == 1) {
+                            frm.set_df_property('custom_branch', 'reqd', 1)
+                        }
+                        else {
+                            frm.set_value('custom_branch', employee.branch)
+                        }
+                    }
+                    else {
+                        console.log('not found');
+                    }
                 }
-            }
-        })
-        frm.set_value('set_warehouse', frm.doc.custom_store)
+            })
+            frm.set_value('set_warehouse', frm.doc.custom_store)
+        }
     }
 }
