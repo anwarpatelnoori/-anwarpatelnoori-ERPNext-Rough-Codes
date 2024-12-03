@@ -1,187 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="print.css">
-</head>
+{% set company = frappe.get_doc("Company",'Brightoak Infotech Pvt Ltd') %}
+{% set letter_head = frappe.db.get_value("Letter Head",'Brightoak','image') %}
 
 <body>
     <div class="invoice-container">
-        <header class="header">
-            <img src="Digambar Letter Head(1800 x 300 px).png" alt="letter-head" width="800px">
-        </header>
-        <section class="section">
-            <div class="table-container" style="overflow: hidden;">
-                <table class="bill-to">
-                    <tr>
-                        <td colspan="2" id="table-heading-bg" >BILL TO:</td>
-                    </tr>
-                    <tr>
-                        <td>Bill To</td>
-                        <td>Nazim Khan</td>
-                    </tr>
-                    <tr>
-                        <td>Address</td>
-                        <td>Sector-200, Noida, U.P.</td>
-                    </tr>
-                    <tr>
-                        <td>State</td>
-                        <td>Uttar Pradesh</td>
-                    </tr>
-                    <tr>
-                        <td>Phone</td>
-                        <td>8888888888</td>
-                    </tr>
-                    <tr>
-                        <td>GSTIN</td>
-                        <td>6969696969696969</td>
-                    </tr>
-                </table>
-                <table class="ship-to">
-                    <tr>
-                        <td colspan="2" id="table-heading-bg" >SHIP TO:</td>
-                    </tr>
-                    <tr>
-                        <td>Ship To</td>
-                        <td>Nazim Khan</td>
-                    </tr>
-                    <tr>
-                        <td>Address</td>
-                        <td>Sector-200, Noida, U.P.</td>
-                    </tr>
-                    <tr>
-                        <td>State</td>
-                        <td>Uttar Pradesh</td>
-                    </tr>
-                    <tr>
-                        <td>Phone</td>
-                        <td>8888888888</td>
-                    </tr>
-                    <tr>
-                        <td>GSTIN</td>
-                        <td>6969696969696969</td>
-                    </tr>
-                </table>
-            </div>
-            <div style="clear: both;"></div>
-        </section>
-        <section class="section">
-            <table class="invoice-details">
-                <tr>
-                    <td>Invoice No:</td>
-                    <td>4649845</td>
-                    <td>Order No:</td>
-                    <td>skps164516</td>
-                </tr>
-                <tr>
-                    <td>Invoice Date:</td>
-                    <td>08-03-2021</td>
-                    <td>Due Date:</td>
-                    <td>15-03-2021</td>
-                </tr>
-            </table>
-        </section>        
-        <section class="section">
-            <table class="info-table">
-                <thead>
-                    <tr>
-                        <th>S.No.</th>
-                        <th>DESCRIPTION</th>
-                        <th>HSN NO.</th>
-                        <th>QTY.</th>
-                        <th>RATE</th>
-                        <th>AMOUNT</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>ITEM NAME 2</td>
-                        <td>2541</td>
-                        <td>26</td>
-                        <td>Rs. 235.52</td>
-                        <td>Rs. 6,123.52</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>ITEM NAME 3</td>
-                        <td>4940</td>
-                        <td>2</td>
-                        <td>Rs. 658.00</td>
-                        <td>Rs. 1,316.00</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>ITEM NAME 4</td>
-                        <td>2546</td>
-                        <td>50</td>
-                        <td>Rs. 485.00</td>
-                        <td>Rs. 24,250.00</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>ITEM NAME 5</td>
-                        <td>8151</td>
-                        <td>15</td>
-                        <td>Rs. 215.00</td>
-                        <td>Rs. 3,225.00</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-        <table class="invoice-table">
-            <tr class="header-row">
-                <td colspan="2">Make All Cheque Payable to</td>
-                <td colspan="2">TOTAL</td>
-                <td class="amount">Rs. 34,914.52</td>
+        <div class="letter-head header">
+            <img src="{{ letter_head }}" alt="letter-head">
+        </div>
+        <table class="customer-info">
+            <tr>
+                <th colspan="2" class="header bill-header">BILL TO:</th>
+                <th colspan="2" class="header ship-header">SHIP TO:</th>
             </tr>
             <tr>
-                <td colspan="2">S.K.P.S DIGITAL</td>
-                <td colspan="2">DISCOUNT @ 1%</td>
-                <td class="amount">Rs. 349.15</td>
-            </tr>
-            <tr class="header-row">
-                <td colspan="2">Bank Account Details</td>
-                <td colspan="2">TAXABLE AMOUNT</td>
-                <td class="amount">Rs. 34,565.37</td>
+                <td>Customer</td>
+                <td>{{ doc.customer_name }}</td>
+                <td>Customer</td>
+                <td>{{ doc.customer_name }}</td>
             </tr>
             <tr>
-                <td>A/C</td>
-                <td>000000000000000</td>
-                <td colspan="2">SGST RATE @ 6%</td>
-                <td class="amount">Rs. 2,073.92</td>
-            </tr>
-            <tr>
-                <td>IFSC</td>
-                <td>BANK00000000</td>
-                <td colspan="2">CGST RATE @ 9%</td>
-                <td class="amount">Rs. 3,110.88</td>
-            </tr>
-            <tr>
-                <td>CITY</td>
-                <td>BRANCH NAME</td>
-                <td colspan="2">PAYABLE AMOUNT</td>
-                <td class="amount">Rs. 39,750.18</td>
-            </tr>
-            <tr>
-                <td colspan="5" class="note">
-                    <strong>Note:</strong> Please include the Invoice number in your payment notes. To be paid in full in maximum 7 days after receiving the invoice.
-                </td>
+                <td>Mobile Number</td>
+                <td>{{ doc.custom_mobile_number }}</td>
+                <td>Mobile Number</td>
+                <td>{{ doc.custom_mobile_number }}</td>
             </tr>
         </table>
-        
-        <footer>
-            <p style="text-align: right;"><strong>_____________________________</strong></p>
-            <p style="text-align: right;"><strong>Authorized Sign.</strong></p>
-            <div class="footer-section">
-                <p>Okhla Industrial Area, New Delhi-110020, Phone No. +919999999999, E-mail- example@mail.com</p>
-                <p id="thank">THANK YOU! WE APPRECIATE YOUR BUSINESS</p>
-            </div>
-        </footer>
+        <table class="invoice-details">
+            <tr>
+                <td class="sales-invoice-detail">Invoice No:</td>
+                <td class="sales-invoice-detail">{{ doc.name }}</td>
+                <td class="sales-invoice-detail">Reference Name:</td>
+                <td class="sales-invoice-detail">{{ doc.custom_current_employee_user_id_ }}</td>
+            </tr>
+            <tr>
+                <td class="sales-invoice-detail">Invoice Date:</td>
+                <td class="sales-invoice-detail">{{ doc.posting_date }}</td>
+                <td class="sales-invoice-detail">Due Date:</td>
+                <td class="sales-invoice-detail">{{ doc.due_date }}</td>
+            </tr>
+        </table>
+        <table class="info-table">
+            <thead>
+                <tr>
+                    <th style="text-align:center">S.No.</th>
+                    <th style="text-align:center">Description</th>
+                    <th style="text-align:center">HSN No.</th>
+                    <th style="text-align:center">Qty</th>
+                    <th style="text-align:center">Rate</th>
+                    <th style="text-align:center">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%- for row in doc.items -%}
+                <tr>
+                    <td style="text-align:center">{{ row.idx }}</td>
+                    <td style="text-align:left">{{ row.item_code }}</td>
+                    <td style="text-align:center">{{ row.gst_hsn_code }}</td>
+                    <td style="text-align:center">{{ row.qty }}</td>
+                    <td style="text-align:center">{{ row.get_formatted("rate", doc) }}</td>
+                    <td style="text-align:center">{{ row.get_formatted("amount", doc) }}</td>
+                </tr>
+                {%- endfor -%}
+            </tbody>
+        </table>
+        <div class="footer-section">
+            <table class="invoice-table">
+                <tr class="header-row">
+                    <td colspan="2" class="sales-invoice-detail">Make All Cheque Payable to</td>
+                    <td colspan="2" class="sales-invoice-detail">TOTAL</td>
+                    <td class="amount sales-invoice-detail" style="text-align:center">{{ doc.get_formatted("total",doc)
+                        }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">{{ company.name }}</td>
+                    <td colspan="2">DISCOUNT</td>
+                    {% if doc.discount_amount %}
+                    <td class="amount" style="text-align:center">{{ doc.get_formatted("discount_amount", doc) }}</td>
+                    {% else %}
+                    <td class="amount" style="text-align:center">--</td>
+                    {% endif %}
+                </tr>
+                <tr class="header-row">
+                    <td colspan="2" class="sales-invoice-detail">Bank Account Details</td>
+                    <td colspan="2" class="sales-invoice-detail">TAXABLE AMOUNT</td>
+                    <td class="amount sales-invoice-detail" style="text-align:center">{{
+                        doc.get_formatted("total_taxes_and_charges",doc) }}</td>
+                </tr>
+                <tr>
+                    <td>A/C</td>
+                    <td>000000000000000</td>
+                    <td colspan="2" style="text-align:center">{{ doc.taxes[0].gst_tax_type | upper}} @ {{
+                        doc.taxes[0].rate }}%</td>
+                    <td class="amount" style="text-align:center">{{ doc.taxes[0].tax_amount }}</td>
+                </tr>
+                <tr>
+                    <td>IFSC</td>
+                    <td>BANK00000000</td>
+                    {% if doc.taxes|length > 1 %}
+                    <td colspan="2" style="text-align:center">{{ doc.taxes[1].gst_tax_type | upper }} @ {{
+                        doc.taxes[1].rate }}% </td>
+                    {%- endif %}
+                    <td class="amount" style="text-align:center">{{ doc.taxes[1].tax_amount }}</td>
+                </tr>
+                <tr>
+                    <td>CITY</td>
+                    <td>BRANCH NAME</td>
+                    <td colspan="2">PAYABLE AMOUNT</td>
+                    <td class="amount" style="text-align:center">{{ doc.get_formatted("grand_total", doc) }}</td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <strong>Amount in words:</strong> {{ doc.in_words }}
+                    </td>
+                </tr>
+            </table>
+            <footer>
+                <div class="sign">
+                    <p>__________________________________________</p>
+                    <p>Authorized Signature</p>
+                </div>
+                <div>
+                    <p>{{ company.custom_address }}</p>
+                    <p>Mobile Number: {{ company.phone_no }}</p>
+                    <p>Email: {{ company.email }}</p>
+                    <p id="thank">THANK YOU! WE APPRECIATE YOUR BUSINESS</p>
+                </div>
+            </footer>
+        </div>
     </div>
 </body>
-
-</html>

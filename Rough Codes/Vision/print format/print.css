@@ -1,176 +1,87 @@
- *{
-    font-family: poppins !important;
+* {
+    font-family: 'Poppins';
+}
+body{
+-webkit-print-color-adjust:exact !important;
+  print-color-adjust:exact !important;
+  margin:2px !important;
 }
 
-table.bill-to,table.ship-to {
-    width: 48%;
-    border-collapse: collapse;
-    border: 1px solid black;
-    float: left;
-    margin-right: 2%;
-    /* Add even spacing between the tables */
+/*Letter Head image*/
+.letter-head{
+    margin-bottom: 10px !important;
 }
-#table-heading-bg{
-    background-color: #2f2db6;
+.header,#thank {
+    background-color: #2f2db6  !important;
+    color: white !important;
+    font-weight: bold  !important;
+}
+
+.print-format td, .print-format th {
+  padding: 5px !important;
+}
+.customer-info .bill-header, .customer-info .ship-header{
+    font-weight: bold;
     color:white;
-    font-weight: bold;
 }
-
-table.bill-to td, table.ship-to td {
-    border: 1px solid black;
-    padding: 2px;
-    text-align: left;
-    word-wrap: break-word; /* Ensure text breaks to the next line */
-    white-space: normal; /* Allow text wrapping */
-    vertical-align: top;/* Align text to the top for better readability */
+.sales-invoice-detail{
+    color:white;
+    background-color:#2f2db6;
+    font-weight:bold;
 }
-
-table.bill-to .header,
-table.ship-to .header {
-    text-align: left;
-    font-weight: bold;
-    font-size: 1.2em;
-    border: 1px solid black;
+.sign{
+    text-align:right;
+    font-weight:bold;
+    margin-right:5px;
+    border-bottom:2px solid black;
 }
-
-table.ship-to {
-    margin-right: 0;
-}
-
-
-table.invoice-details {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid black;
-    margin-bottom: 20px;
-    background-color: #2f2db6;
-    color: white;
-}
-
-table.invoice-details td {
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 8px;
-    text-align: left;
-    vertical-align: top;
-    text-align: center;
-}
-
-table.invoice-details td:first-child, 
-table.invoice-details td:nth-child(3) {
-    font-weight: bold;
-    width: 25%; /* Label columns */
-}
-
-table.invoice-details td:nth-child(2),
-table.invoice-details td:nth-child(4) {
-    width: 25%; /* Value columns */
-}
-
-
 .invoice-container {
     max-width: 800px;
     margin: auto;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+img {
+    width: 100%;
+    height: auto;
 }
 
-.header h1 {
-    margin: 0;
-    font-size: 24px;
-}
-
-.header .invoice-title {
-    font-size: 32px;
-    color: #1e40af;
-}
-
-.section {
-    margin-bottom: 20px;
-}
-
-.section h2 {
-    margin: 0 0 10px 0;
-    font-size: 18px;
-}
-
-.section p {
-    margin: 5px 0;
-}
-
-.info-table {
+.customer-info, .invoice-details, .info-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
-.info-table th,
-.info-table td {
-    border: 1px solid #ddd;
+th, td {
+    border: 1px solid black;
     padding: 8px;
+    text-align: left;
 }
-
 .info-table th {
     background-color: #2f2db6;
-    color: #fff;
-    text-align: left;
-}
-
-.info-table td {
-    text-align: right;
-}
-
-.info-table td:first-child {
-    text-align: left;
-}
-
-.invoice-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-    margin-bottom: 20px;
-}
-
-.invoice-table td {
-    border: 1px solid black;
-    padding: 10px;
-    vertical-align: top;
-    text-align: left;
-}
-
-.invoice-table td.amount {
-    text-align: right;
-}
-
-.header-row {
-    background-color: #2f2db6;
     color: white;
+}
+
+.amount {
+    text-align: right;
 }
 
 .note {
     font-size: 12px;
-    text-align: left;
+    text-align: center;
     padding: 10px;
 }
-
-
+/*Footer Section*/
 footer {
     text-align: center;
-    margin-top: 20px;
-    padding-top: 20px;
+    margin-top: 10px;
+    padding-top: 10px;
 }
-.footer-section{
+
+.footer-section {
     border-top: 2px solid black;
 }
-.footer-section #thank {
-    background-color: #2f2db6;
-    color: white;
-    font-weight: bold;
+
+.invoice-table{
+    width:100% !important;
 }

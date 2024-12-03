@@ -8,8 +8,8 @@ frappe.ui.form.on('Contract Letter', {
             sign_by_hr(frm);
         }, 1000);
     },
-    custom_conifrm_your_signature: function (frm) {
-        if (frm.doc.custom_conifrm_your_signature == 1) {
+    custom_confirm_your_signature: function (frm) {
+        if (frm.doc.custom_confirm_your_signature == 1) {
             create_img_of_sign(frm);
             frappe.msgprint('Please wait for a moment, we are saving your signature');
             setTimeout(function () {
@@ -18,28 +18,29 @@ frappe.ui.form.on('Contract Letter', {
         }
     },
     before_save: function (frm) {
-        if (frm.doc.custom_conifrm_your_signature != 1 && frm.doc.workflow_state === 'Pending Applicant Sign') {
-            frappe.throw(`Please confirm your signature by checking the checkbox "Conifrm Your Signature"`);
+        let user = frappe.user_roles.includes('Contract Signing')
+        if (frm.doc.custom_confirm_your_signature != 1 && frm.doc.workflow_state === 'Pending Applicant Sign' && user) {
+            frappe.throw(`Please confirm your signature by checking the checkbox "Confirm Your Signature"`);
         }
     },
     custom_candidate_signature: function (frm) {
-        frm.set_value('custom_conifrm_your_signature', 0);
+        frm.set_value('custom_confirm_your_signature', 0);
     }
 });
 
 function view_contract_button(frm) {
     if (frm.doc.custom_candidate_signature_image) {
-        let url = `https://devbayaanerpv2.frappe.cloud/api/method/frappe.utils.print_format.download_pdf?doctype=Contract%20Letter&name=CNT-08-24-273&format=st2&no_letterhead=0&letterhead=Bayan%20Letter%20Head&settings=%7B%7D&_lang=en-US`;
+        let url = `https://erp.bayaanacademy.com/api/method/frappe.utils.print_format.download_pdf?doctype=Contract%20Letter&name=CNT-08-24-289&format=st2&no_letterhead=0&letterhead=Bayan%20Letter%20Head&settings=%7B%7D&_lang=en-US`;
         let contract_name = frm.doc.name;
-        let view_contract_url = url.replace('CNT-08-24-273', contract_name);
+        let view_contract_url = url.replace('CNT-08-24-289', contract_name);
         frm.add_custom_button('View Contract', function () {
             window.open(view_contract_url);
         });
     }
     else {
-        let url = `https://devbayaanerpv2.frappe.cloud/api/method/frappe.utils.print_format.download_pdf?doctype=Contract%20Letter&name=CNT-08-24-273&format=st2&no_letterhead=0&letterhead=Bayan%20Letter%20Head&settings=%7B%7D&_lang=en-US`;
+        let url = `https://erp.bayaanacademy.com/api/method/frappe.utils.print_format.download_pdf?doctype=Contract%20Letter&name=CNT-08-24-289&format=st2&no_letterhead=0&letterhead=Bayan%20Letter%20Head&settings=%7B%7D&_lang=en-US`;
         let contract_name = frm.doc.name;
-        let view_contract_url = url.replace('CNT-08-24-273', contract_name);
+        let view_contract_url = url.replace('CNT-08-24-289', contract_name);
         frm.add_custom_button('View Contract', function () {
             window.open(view_contract_url);
         });
@@ -62,7 +63,7 @@ function sign_by_hr(frm) {
                     console.log('HR Signature:', response.message);
                     let hr_signature = response.message;
                     let letter_with_hr_sign = letter_with_applicant_sign
-                        .replace('/private/files/bBp4ldi.png?fid=42b1e3ab71', hr_signature)
+                        .replace('/private/files/QBBFyrc.png?fid=2c6186b2dd', hr_signature)
                         .replace('Date of Signature of HR', formattedDate);
                     frm.set_value('custom_letter', letter_with_hr_sign);
                     frm.save()
@@ -87,10 +88,10 @@ function sign_by_applicant(frm) {
     console.log('Applicant Sign Path is ')
     console.log(applicant_sign)
 
-    if (letter.includes('"/private/files/k2ciryc.png?fid=b462901d06"')) {
+    if (letter.includes('"/private/files/Applicant Signature.png?fid=05451d96c0"')) {
         console.log('Applicant Sign Exists');
         let letter_with_applicant_sign = letter
-            .replace('"/private/files/k2ciryc.png?fid=b462901d06"', applicant_sign)
+            .replace('"/private/files/Applicant Signature.png?fid=05451d96c0"', applicant_sign)
             .replace('Date of Signature of Applicant', formattedDate);
         frm.set_value('custom_letter', letter_with_applicant_sign);
         frm.save()
