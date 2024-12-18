@@ -1,0 +1,95 @@
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th id="main-heading" colspan="3">Employee</th>
+                <th id="main-heading" colspan="4">Week 1</th>
+                <th id="main-heading" colspan="4">Week 2</th>
+                <th id="main-heading" colspan="4">Week 3</th>
+                <th id="main-heading" colspan="4">Week 4</th>
+                <th id="main-heading" colspan="4">Week 5</th>
+                <th id="main-heading" colspan="3">Monthly Summary</th>
+            </tr>
+            <tr>
+                <!--Employee Heading-->
+                <th>Name</th>
+                <th>Dept</th>
+                <th>Designation</th>
+                <!--Week 1 Heading-->
+                <th>Est Hour</th>
+                <th>Actual Hr</th>
+                <th>Diff</th>
+                <th>View hours</th>
+                <!--Week 2 Heading-->
+                <th>Est Hour</th>
+                <th>Actual Hr</th>
+                <th>Diff</th>
+                <th>View hours</th>
+                <!--Week 3 Heading-->
+                <th>Est Hour</th>
+                <th>Actual Hr</th>
+                <th>Diff</th>
+                <th>View hours</th>
+                <!--Week 4 Heading-->
+                <th>Est Hour</th>
+                <th>Actual Hr</th>
+                <th>Diff</th>
+                <th>View hours</th>
+                <!--Week 5 Heading-->
+                <th>Est Hour</th>
+                <th>Actual Hr</th>
+                <th>Diff</th>
+                <th>View hours</th>
+                <!--Monthly Data Heading-->
+                <th>Monthly Est Hour</th>
+                <th>Monthly Actual Hr</th>
+                <th>Monthly Diff</th>
+            </tr>
+        </thead>
+        <tbody id="employeeData">
+            {% set all_employee = frappe.db.sql(
+                    """
+                        SELECT 
+                            t1.custom_staff_schedule_hour_,  
+                            t1.employee_name, 
+                            t1.custom_weekly_scheduled_hour, 
+                            t1.custom_total_worked_hours_weekly, 
+                            t1.custom_hours_difference,
+                            t1.department,
+                            t1.custom_designation
+                        FROM 
+                            `tabTimesheet` t1
+                        JOIN (
+                            SELECT 
+                                custom_staff_schedule_hour_, 
+                                MAX(custom_total_worked_hours_weekly) AS max_hours
+                            FROM 
+                                `tabTimesheet`
+                            WHERE 
+                                workflow_state IN ('Lead Verification Pending', 'HR Verification Pending', 'HR Verified')
+                            GROUP BY 
+                                custom_staff_schedule_hour_
+                        ) t2 
+                        ON 
+                            t1.custom_staff_schedule_hour_ = t2.custom_staff_schedule_hour_
+                        AND 
+                            t1.custom_total_worked_hours_weekly = t2.max_hours
+                        WHERE 
+                            t1.workflow_state IN ('Lead Verification Pending', 'HR Verification Pending', 'HR Verified')
+                    """, as_dict=1)
+            %}
+            {% for employee in all_employee %}
+            <tr>
+                <td>{{ employee.employee_name }}</td>
+                <td>{{ employee.department }}</td>
+                <td>{{ employee.custom_designation }}</td>
+                <!--Week 1 Data-->
+                <td>{{ employee.custom_weekly_scheduled_hour }}</td>
+                <td>{{ employee.custom_total_worked_hours_weekly }}</td>
+                <td>{{ employee.custom_hours_difference }}</td>
+                <td><button>Data</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
