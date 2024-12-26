@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Detailed Weekly Report</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+
+<body>
+    <div class="selection-area">
+        <div class="select-container">
+            <label for="month-select">Month:</label>
+            <select id="month-select">
+                <option value="january">January</option>
+                <option value="february">February</option>
+                <option value="march">March</option>
+                <option value="april">April</option>
+                <option value="may">May</option>
+                <option value="june">June</option>
+                <option value="july">July</option>
+                <option value="august">August</option>
+                <option value="september">September</option>
+                <option value="october">October</option>
+                <option value="november">November</option>
+                <option value="November">November</option>
+            </select>
+        </div>
+        <div class="select-container">
+            <label for="department-select">Department:</label>
+            <select id="department-select">
+                <option value="marketing">Marketing</option>
+                <option value="sales">Sales</option>
+                <option value="hr">HR</option>
+                <option value="it">IT</option>
+            </select>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="3">Employee Details</th>
+                <th colspan="15">Weekly Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set all_employee = frappe.get_list('Employee', fields=['employee_name', 'name', 'designation',
+            'department']) %}
+            {% for employee in all_employee %}
+            <tr>
+                <!-- Employee details -->
+                <td>{{ employee.employee_name }}</td>
+                <td>{{ employee.department }}</td>
+                <td>{{ employee.designation }}</td>
+                <!-- Nested tables for weekly data -->
+                
+                <!-- Week 1 -->
+                <td colspan="3">
+                    <table>
+                        <tr>
+                            <th colspan="3">Week 1</th>
+                        </tr>
+                        <tr>
+                            <th>Est Hrs</th>
+                            <th>Act Hrs</th>
+                            <th>Dif HRs</th>
+                        </tr>
+                        {% set actual_hrs = frappe.db.get_value('Weekly Staff Schedule Hour',
+                        fieldname='scheduled_hours', filters={'current_month': 'November', 'current_week':
+                        'Week 1', 'employee': employee.name}) %}
+                        {% set total_hours = frappe.db.get_value('Weekly Staff Schedule Hour',
+                        fieldname='total_hours', filters={'current_month': 'November', 'current_week':
+                        'Week 1', 'employee': employee.name}) %}
+                        <tr>
+                            <td>
+                                {% if actual_hrs %}
+                                {{ actual_hrs }} hrs
+                                {% else %}
+                                No value
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if total_hours %}
+                                {{ total_hours }} hrs
+                                {% else %}
+                                No value
+                                {% endif %}
+                            </td>
+                            <td>-2</td>
+                        </tr>
+
+                    </table>
+                </td>
+                <!-- Week 2 -->
+                <td colspan="3">
+                    <table>
+                        <tr>
+                            <th colspan="3">Week 2</th>
+                        </tr>
+                        <tr>
+                            <th>Est Hrs</th>
+                            <th>Act Hrs</th>
+                            <th>Dif HRs</th>
+                        </tr>
+                        {% set actual_hrs = frappe.db.get_value('Weekly Staff Schedule Hour',
+                        fieldname='scheduled_hours', filters={'current_month': 'November', 'current_week':
+                        'Week 2', 'employee': employee.name}) %}
+                        {% set total_hours = frappe.db.get_value('Weekly Staff Schedule Hour',
+                        fieldname='total_hours', filters={'current_month': 'November', 'current_week':
+                        'Week 2', 'employee': employee.name}) %}
+                        <tr>
+                            <td>
+                                {% if actual_hrs %}
+                                {{ actual_hrs }} hrs
+                                {% else %}
+                                No value
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if total_hours %}
+                                {{ total_hours }} hrs
+                                {% else %}
+                                No value
+                                {% endif %}
+                            </td>
+                            <td>-2</td>
+                        </tr>
+
+                    </table>
+                </td>
+                <!-- Week3 -->
+                <td colspan="3">
+                    <table>
+                        <tr>
+                            <th colspan="3">Week 3</th>
+                        </tr>
+                        <tr>
+                            <th>Est Hrs</th>
+                            <th>Act Hrs</th>
+                            <th>Dif HRs</th>
+                        </tr>
+                        {% set actual_hrs = frappe.db.get_value('Weekly Staff Schedule Hour',
+                        fieldname='scheduled_hours', filters={'current_month': 'November', 'current_week':
+                        'Week 3', 'employee': employee.name}) %}
+                        {% set total_hours = frappe.db.get_value('Weekly Staff Schedule Hour',
+                        fieldname='total_hours', filters={'current_month': 'November', 'current_week':
+                        'Week 3', 'employee': employee.name}) %}
+                        <tr>
+                            <td>
+                                {% if actual_hrs %}
+                                {{ actual_hrs }} hrs
+                                {% else %}
+                                No value
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if total_hours %}
+                                {{ total_hours }} hrs
+                                {% else %}
+                                No value
+                                {% endif %}
+                            </td>
+                            <td>-2</td>
+                        </tr>
+
+                    </table>
+                </td>
+                <!-- Weekk4 -->
+                <td colspan="3">
+                    <table>
+                        <tr>
+                            <th colspan="3">Week 4</th>
+                        </tr>
+                        <tr>
+                            <th>Est Hrs</th>
+                            <th>Act Hrs</th>
+                            <th>Dif HRs</th>
+                        </tr>
+                        {% set actual_hrs = frappe.db.get_value('Weekly Staff Schedule Hour',
+                        fieldname='scheduled_hours', filters={'current_month': 'November', 'current_week':
+                        'Week 4', 'employee': employee.name}) %}
+                        {% set total_hours = frappe.db.get_value('Weekly Staff Schedule Hour',
+                        fieldname='total_hours', filters={'current_month': 'November', 'current_week':
+                        'Week 4', 'employee': employee.name}) %}
+                        <tr>
+                            <td>
+                                {% if actual_hrs %}
+                                {{ actual_hrs }} hrs
+                                {% else %}
+                                No value
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if total_hours %}
+                                {{ total_hours }} hrs
+                                {% else %}
+                                No value
+                                {% endif %}
+                            </td>
+                            <td>-2</td>
+                        </tr>
+
+                    </table>
+                </td>
+                <!-- Week5 -->
+                <td colspan="3">
+                    <table>
+                        <tr>
+                            <th colspan="3">Week 5</th>
+                        </tr>
+                        <tr>
+                            <th>Est Hrs</th>
+                            <th>Act Hrs</th>
+                            <th>Dif HRs</th>
+                        </tr>
+                        {% set actual_hrs = frappe.db.get_value('Weekly Staff Schedule Hour',
+                        fieldname='scheduled_hours', filters={'current_month': 'November', 'current_week':
+                        'Week 5', 'employee': employee.name}) %}
+                        {% set total_hours = frappe.db.get_value('Weekly Staff Schedule Hour',
+                        fieldname='total_hours', filters={'current_month': 'November', 'current_week':
+                        'Week 5', 'employee': employee.name}) %}
+                        <tr>
+                            <td>
+                                {% if actual_hrs %}
+                                {{ actual_hrs }} hrs
+                                {% else %}
+                                No value
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if total_hours %}
+                                {{ total_hours }} hrs
+                                {% else %}
+                                No value
+                                {% endif %}
+                            </td>
+                            <td>-2</td>
+                        </tr>
+
+                    </table>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

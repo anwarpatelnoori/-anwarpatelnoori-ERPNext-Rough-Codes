@@ -78,10 +78,7 @@
                             t1.workflow_state IN ('Lead Verification Pending', 'HR Verification Pending', 'HR Verified')
                     """, as_dict=1)
             %}
-            {% set employee_weeks = {} %}
-            {% for entry in data}
-            {% for employee in all_employee %}:
-                {% set employee_name = entry['employee_name'] %}
+            {% for employee in all_employee %}
             <tr>
                 <td>{{ employee.employee_name }}</td>
                 <td>{{ employee.department }}</td>
