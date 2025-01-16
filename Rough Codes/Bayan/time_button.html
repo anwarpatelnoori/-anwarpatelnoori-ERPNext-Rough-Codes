@@ -1,0 +1,17 @@
+<div class="container">
+    <form onsubmit="return logTime();">
+        <div class="form-group">
+            <label for="timeInput">Select Time:</label>
+            <input type="time" class="form-control" id="timeInput" name="time">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script>
+    function logTime() {
+        var timeSelected = document.getElementById('timeInput').value;
+        console.log('Selected Time:', timeSelected);
+        return false;  // Prevent the form from submitting traditionally
+    }
+</script>

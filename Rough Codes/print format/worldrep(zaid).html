@@ -1,0 +1,303 @@
+<body>
+    {% set com = frappe.get_doc("Letter Head",'Purchase Order new logo') %}
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <td>
+                    <div class="empty-header">
+                        <!-- ... Your Header HTML ... -->
+                    </div>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="body-content">
+                        <div class='detail'>
+                            <div
+                                style="display: flex; justify-content: space-between; margin-top: 30px;height: 20vh;margin-bottom:0px">
+                                <!-- First table -->
+                                <table class='t1' style="width: 50%; height: 175px;margin-right: 1%;">
+                                    <tbody>
+                                        <!-- Put your data here. -->
+                                        <tr>
+                                            <td style="padding-bottom: 20px;">Bill To/ الفاتورة الى</td>
+                                            <td style="padding-bottom: 20px;">
+                                                {{doc.customer_name_}}<br>{{doc.customer_name_in_arabic}}</td>
+                                        </tr>
+                                        <!--<tr>-->
+                                        <!--    <td style="padding-bottom: 20px;">Cust.No/ رقم العميل</td>-->
+                                        <!--    <td style="padding-bottom: 20px;">{{doc.customer_name}}</td>-->
+                                        <!--</tr>-->
+                                        <tr style='border-left: none !important;'>
+                                            <td style="padding-bottom: 15px; border-right: none !important;">
+                                                {{doc.custom_address}}</td>
+                                            <td style="padding-bottom: 15px;">{{doc.custom_address_in_arabic}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-right: 40px; padding-bottom: 20px;">Cust.VAT/الرقم
+                                                الضريبي للعميل</td>
+                                            <td style="padding-bottom: 20px;">{{doc.tax_id}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom: 20px;">CO No / العميل. رقم الطلب</td>
+                                            <td style="padding-bottom: 20px;">{{doc.cust_order_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-right: 15px; padding-bottom: 20px;">CO Date/ تاريخ طلب
+                                                العميل</td>
+                                            <td style="padding-bottom: 15px;">{{doc.cust_order_date}}</td>
+                                        </tr>
+                                        <!-- More rows as needed... -->
+                                    </tbody>
+                                </table>
+                                <!-- Second table -->
+                                <table class='t2' style="width: 50%;height: 175px;">
+                                    <tbody>
+                                        <!-- Put your data here. -->
+                                        <tr>
+                                            <td style="padding-bottom: 20px;">Cust.No/ رقم العميل</td>
+                                            <td style="padding-bottom: 20px;">{{doc.customer_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-right: 5px; padding-bottom: 20px;">Invoice No / رقم
+                                                الفاتورة</td>
+                                            <td style="padding-bottom: 15px;">{{doc.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-right: 5px; padding-bottom: 15px;">Date Invoice / تاريخ
+                                                الفاتورة</td>
+                                            <td style="padding-bottom: 20px;">{{doc.posting_date}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom: 20px;">DN No / تسليم مذكرة لا</td>
+                                            <td style="padding-bottom: 20px;">{{doc.custom_delivery_note_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom: 20px;">SO No / رقم طلب المبيعات</td>
+                                            <td style="padding-bottom: 20px;">{{doc.sales_order_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-right: 15px; padding-bottom: 20px;">Payment Terms / شروط
+                                                الدفع</td>
+                                            <td style="padding-bottom: 15px;">{{doc.payments_terms}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-right: 15px; padding-bottom: 20px;">Sales Rep / مندوب
+                                                المبيعات</td>
+                                            <td style="padding-bottom: 15px;">{{doc.custom_sales_rep}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-right: 15px; padding-bottom: 20px;">Territory / منطقة
+                                            </td>
+                                            <td style="padding-bottom: 15px;">{{doc.territory_}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% set col = namespace(one = 2, two = 1) %}
+                            {% set length = doc.taxes | length %}
+                            {% set length = length / 2 | round %}
+                            {% set col.one = col.one + length %}
+                            {% set col.two = col.two + length %}
+                            {%- if(doc.taxes | length % 2 > 0 ) -%}
+                            {% set col.two = col.two + 1 %}
+                            {% endif %}
+                            <!-- Items -->
+                            {% set total = namespace(amount = 0) %}
+                            <table class="item-table" style="margin-top: 5; padding-top: 0;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 12%">Product Code<br />رﻣز اﻟﻣﻧﺗﺞ</th>
+                                        <th style="width: 30%">Packing<br />اﻟﺘﻌﺒﺌﺔ</th>
+                                        <th style="width: 4%">Qty <br />اﻟﻜﻤﻴﺔ</th>
+                                        <th style="width: 4%">Unit <br /> وحدة</th>
+                                        <th style="width: 11%"> Unit price SAR<br />سعر الوحدة</th>
+                                        <th style="width: 11%">Amount SAR <br />اﻟﻤﺒﻠﻎ ريال</th>
+                                        {% for row in doc.taxes %}
+                                        <th style="width: 9%">VAT {{row.rate}}%<br />ضريبة</th>
+                                        {% endfor %}
+                                        <th style="width: 11%">Total Amt SAR <br />إجمالي المبلغ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%- for item in doc.items -%}
+                                    {% set total.amount = item.amount %}
+                                    <tr>
+                                        <td>{{item.item_code}}</td>
+                                        <td style='text-align:left'>
+                                            <div class='item+desc'>
+                                                {{item.item_name}}
+                                                <h7 style="text-align:right">
+                                                    &nbsp;&nbsp;&nbsp;{{item.product_name_in_arabic}}</h7>
+                                            </div>{{( item.description )}}
+                                        </td>
+                                        <td style="text-align:right">{{ "{:,.2f}".format(item.qty) }}</td>
+                                        <td>{{ item.uom }}</td>
+                                        <td class="text-right">{{ "{:,.2f}".format(item.rate) }}</td>
+                                        <td class="text-right">{{ "{:,.2f}".format(item.amount) }}</td>
+                                        {% for row in doc.taxes %}
+                                        {% set data_object = json.loads(row.item_wise_tax_detail) %}
+                                        {% set key = item.item_code or item.item_name %}
+                                        {% set tax_amount = frappe.utils.flt(data_object[key][1]/doc.conversion_rate,
+                                        row.precision('tax_amount')) %}
+                                        {% set cust_tot_amt = item.amount %}
+                                        {% set cust_tax_amt = cust_tot_amt * 0.15 %}
+                                        <td class="text-right">
+                                            {%- if(data_object[key][0])-%}{%- endif -%}
+                                            {%- if(data_object[key][1])-%}
+                                            <!--{{ frappe.format_value(cust_tax_amt, currency=doc.currency) }}-->
+                                            <!--{{ "%.2f"|format(cust_tax_amt) }}-->
+                                            {{ "{:,.2f}".format(cust_tax_amt) }}
+                                            {% set total.amount = total.amount + cust_tax_amt %}
+                                            {%- endif -%}
+                                        </td>
+                                        {% endfor %}
+                                        <td class="text-right">{{ "{:,.2f}".format(total.amount) }}</td>
+                                    </tr>
+                                    {%- endfor -%}
+                                </tbody>
+                            </table>
+                            {%- if doc.terms -%}
+                            <p>{{doc.terms}}</p>
+                            {%- endif -%}
+                        </div>
+                        <div class="box-main1"
+                            style='display: flex; flex-direction: row; justify-content: space-between;margin-top: 10px;'>
+                            <div class='box1' style="width: 40%;">
+                                <h5>In Words</h5>
+                                <p>{{ doc.in_words }}</p>
+                            </div>
+                            <div class="qr-code" style='margin-right: 0px'>
+                                <img src={{doc.ksa_einv_qr}} width="120%" height="120px">
+                            </div>
+                            <div class='box2' style="width: 55%;">
+                                <table class="item-table"
+                                    style="width: 90%;height:50% margin-top: 0; padding-top: 0;float:right;">
+                                    <thead>
+                                        <!-- <tr> -->
+                                        <!-- <th>Description<br/>الوصف</th> -->
+                                        <!-- <th>Value<br/>القيمة</th> -->
+                                        <!-- </tr> -->
+                                    </thead>
+                                    <tbody>
+                                        {% if(doc.additional_discount_percentage) %}
+                                        <tr>
+                                            <td>Total Amount Excluding VAT SAR <br />إجمالي المبلغ بدون ضريبة القيمة
+                                                المضافة</td>
+                                            <td>{{ "{:,.2f}".format(doc.total) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Discount Amount SAR<br />إجمالي المبلغ بدون ضريبة القيمة المضافة</td>
+                                            <td>{{ doc.base_discount_amount }} ر.س</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Amount Excluding VAT with Discount SAR<br />إجمالي المبلغ بدون
+                                                ضريبة القيمة المضافة مع الخصم</td>
+                                            <td>{{ doc.net_total }}</td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td>Total Amount Excluding VAT SAR<br />إجمالي المبلغ بدون ضريبة القيمة
+                                                المضافة</td>
+                                            <td>{{ doc.total}}</td>
+                                        </tr>
+                                        {% endif %}
+                                        <tr>
+                                            <td>VAT %<br />نسبة الضريبة</td>
+                                            <td>15%</td>
+                                            <!-- Replace with actual VAT % if dynamic -->
+                                        </tr>
+                                        <tr>
+                                            <td>VAT Value<br />قيمة الضريبة</td>
+                                            <td>{{ doc.total_taxes_and_charges}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Amount SAR with VAT<br />الإجمالي بعد الضريبة</td>
+                                            <td>{{doc.grand_total}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="box-main2"
+                            style='display: flex; flex-direction: row; justify-content: space-between;margin-top: 0px;width: 100%'>
+                            <div class="box3">
+                                <table style="width:100%;border: 0px solid rgb(200, 200, 200);">
+                                    <tr>
+                                        <th style='color:black'><b>Bank Details</b></th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>Bank Holder Name:</td>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>{{doc.bank_holder_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>VAT Id</td>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>{{doc.worldrep_tax_id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>Bank Name:</td>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>{{doc.bank_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>Bank account No:</td>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>{{doc.bank_account_no}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>IBAN Code:</td>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>{{doc.iban_no}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>SWIFT Code:</td>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>{{doc.swift_code}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>Bank Address:</td>
+                                        <td style='border: 0px solid rgb(190, 190, 190'>{{doc.bank_address}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="box4" style='width:35%; padding-top: 35px'>
+                                <table style="height:130px;padding-top:5px">
+                                    <tr style="height:10%">
+                                        <td style='padding-top:10px;'>Received /اتلقى: __________________</td>
+                                    </tr>
+                                    <tr style="padding-bottom:10px;height:10%">
+                                        <td>Prepared / أعدت: _________________</td>
+                                    </tr>
+                                    <tr style="padding:10px;height:15%">
+                                        <td>Approved /وافق:__________________</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <div class="empty-footer">
+                        <!-- ... Your Empty Footer HTML ... -->
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="header">
+        <!--<div class='main-header' style='display: flex; flex-direction: row; justify-content: space-between;margin-top: 0px;width: 100%;padding-left: 0px'>-->
+        <div class='header-image'>
+            <img src="{{ com.image }}" width="100%" height="120px" class="img-fluid"
+                style="padding-bottom: 15px;padding-right:5px;">
+        </div>
+        <!--</div>-->
+        <p style="font-size: 15px; text-align: center; margin-bottom:5px"><b>VAT Invoice فاتورة ضريبه القيمة المضافة</b>
+        </p>
+    </div>
+    <div class="footer">
+        <img src="{{ com.footer_image }}" width="100%" height="80px" class="img-fluid">
+    </div>
+</body>

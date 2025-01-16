@@ -1,0 +1,236 @@
+body {
+  display: flex;
+  flex-direction: column;  /* Stack elements vertically */
+  min-height: 100vh; /* Minimum height of 100% of the viewport height */
+}
+
+main {
+  flex-grow: 1; /* Allows the main content to grow and take up any remaining space */
+}
+
+
+
+h4{
+border-bottom: 1px solid black ;
+}
+.header-info {
+            display: flex;
+            justify-content: space-between;
+        }
+
+.qr-code {
+    margin-bottom: 20px;
+	float: left;
+	width: 140px !important;
+	height: 70px !important;
+	padding-right: 20px;
+}
+
+.invoice-heading {
+	margin: 0;
+	text-align: center;
+}
+
+table thead tr th {
+	text-align: center;
+}
+
+.tfoot {
+	font-weight: 800 !important;
+}
+.item-table{
+    text-align:center;
+     margin-top: 0px !important;
+}
+.text-right{
+    text-align:right !important;
+}
+.item-table tr td,.item-table tr th{
+    border:1px solid #888a8e !important;
+    border-collapse: collapse !important;
+    padding: 2px !important;
+    vertical-align:middle !important;
+   
+}
+.t1 tr td,.t1 tr th{
+    border:1px solid #888a8e !important;
+    border-collapse: collapse !important;
+    vertical-align:middle !important;
+    	padding: 5px !important;
+   
+}
+
+.t2 tr td,.t2 tr th{
+    border:1px solid #888a8e !important;
+    border-collapse: collapse !important;
+    vertical-align:middle !important;
+    	padding: 5px !important;
+   
+}
+
+
+@media print{
+    .t1 tr td,.t1 tr th{
+    border:1px solid #888a8e !important;
+    border-collapse: collapse !important;
+    vertical-align:middle !important;
+    	padding: 5px !important;
+	margin: 0px !important;
+   
+}
+
+
+.t2 tr td,.t2 tr th{
+    border:1px solid #888a8e !important;
+    border-collapse: collapse !important;
+    vertical-align:middle !important;
+    	padding: 5px !important;
+	margin: 0px !important;
+   
+}
+
+}
+.ksa-invoice-table thead,
+.ksa-invoice-table tfoot {
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.qr-rtl {
+	direction: rtl;
+}
+
+.qr-flex {
+	display: flex;
+	justify-content: space-between;
+}
+
+
+/*kk Custom Style start from here*/
+
+table tbody tr {
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+.invoice-info {
+	border: none;
+}
+
+.invoice-info thead tr th {
+	border: none !important;
+}
+
+.invoice-info tbody tr td {
+	border: none !important;
+}
+
+table {
+	/*border: none ;*/
+	font-size: 10px !important;
+}
+
+table thead tr th {
+	font-size: 10px !important;
+	font-weight: 600 !important;
+}
+
+.print-format td,
+.print-format th {
+	padding: 0px !important;
+	margin: 0px !important;
+}
+
+.print-format th {
+	background-color: #fff;
+}
+
+ 
+ 
+/*custom code editing for table data end here*/
+ 
+ 
+/*header and footer styling*/
+ 
+.empty-header {
+	height: 40px;
+}
+ 
+.empty-footer {
+	height: 30px;
+}
+ 
+.header {
+	position: fixed;
+	height: 80px;
+	width: 100%;
+	top: 0;
+}
+ 
+.footer {
+	position: fixed;
+	height: 90px;
+	width: 80%;
+	bottom: 0;
+}
+ 
+@media print {
+    table{
+        width: 100% !important;
+    }
+    .item-table{
+        width: 100%;
+    }
+	.header,
+	.footer {
+		width: 100% !important;
+	}
+	.empty-header {
+		height: 120px;
+	}
+	.empty-footer {
+		height: 140px;
+	}
+    @page {
+		/*margin-top: 10px;*/
+		/*margin-bottom: 0px;*/
+		/*margin-right: 2px !important;*/
+	}
+	.item-table tbody tr:last-child{
+	    /*background-color: red;*/
+	    border-bottom: 1px solid black !important;
+	}
+}
+ 
+thead {
+	display: table-header-group;
+}
+ 
+tfoot {
+	display: table-footer-group;
+}
+ 
+ 
+/* Large devices (laptops/desktops, 992px and up) */
+ 
+@media only screen and (min-width: 992px) {
+	.empty-header img {
+		width: 60% !important;
+	}
+	.footer img {
+		width: 60% !important;
+	}
+}
+ 
+ 
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+ 
+@media only screen and (min-width: 1200px) {
+	.header img {
+		width: 100% !important;
+	}
+	.footer img {
+		width: 60% !important;
+	}
+}
